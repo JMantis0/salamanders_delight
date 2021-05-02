@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.example'
@@ -10,10 +11,23 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    // JUnit 4 unit testing
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    // MongoDB connectivity
+    implementation 'org.mongodb:mongodb-driver-sync:4.0.5'
+    testImplementation 'org.mongodb:mongodb-driver-sync:4.0.5'
+    // DB testing
+    testImplementation 'org.mockito:mockito-inline:3.7.7'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.7.7'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.9.0'
+    // Static tools (reverse iteration)
+    compile 'org.apache.commons:commons-collections4:4.4'
+    // log4j logging dependency
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
 }
 
 test {
-    useJUnitPlatform()
+    // for JUnit 4
+    useJUnit()
 }
