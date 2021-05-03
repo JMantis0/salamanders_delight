@@ -9,7 +9,7 @@ public class Employee {
   String lastName;
   int empID;
   String password;
-  ObjectId _id;
+  ObjectId _id; // For Mongo
 
   //Constructors
   public Employee() {

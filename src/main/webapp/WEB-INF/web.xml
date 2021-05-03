@@ -1,0 +1,21 @@
+<!-- web.xml helps configure our application when it loads up.-->
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+<!--    There are two parts to registering a servlet
+        The servlet name and the servlet-mapping
+        -->
+    <servlet>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <servlet-class>base.servlets.WelcomeServlet</servlet-class>
+    </servlet>
+    <sevlet-mapping>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <url-pattern>/api/welcome/*</url-pattern>
+    </sevlet-mapping>
+</web-app>
+
+
