@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './Salamander.css';
+import Welcome from "./pages/Welcome";
+import Login from "./pages//Login";
+import EmployeeHome from "./pages/EmployeeHome";
+import ManagerHome from "./pages/ManagerHome";
+
+import "./Salamander.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function Salamander() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Route exact path="/">
+        <Welcome />
+      </Route>
+      <Route exact path="/login">
+        <Login />
+      </Route>
+      <Route exact path="/employeehome">
+        <EmployeeHome />
+      </Route>
+      <Route exact path="/managerhome">
+        <ManagerHome />
+      </Route>
+    </Router>
   );
 }
 
