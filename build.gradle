@@ -1,8 +1,8 @@
 plugins {
-    id 'java'
+    id 'war'
 }
 
-group 'org.example'
+group 'base'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -10,10 +10,40 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    // JUnit 4 unit testing
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    // MongoDB connectivity
+    implementation 'org.mongodb:mongodb-driver-sync:4.0.5'
+    testImplementation 'org.mongodb:mongodb-driver-sync:4.0.5'
+    // DB testing
+    testImplementation 'org.mockito:mockito-inline:3.7.7'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.7.7'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.9.0'
+    // Static tools (reverse iteration)
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    // log4j logging dependency
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
 }
 
 test {
-    useJUnitPlatform()
+    // for JUnit 4
+    useJUnit()
+}
+tasks.register("deploy", Copy) {
+    dependsOn "war"
+    def catalinaHome = System.getenv("CATALINA_HOME");
+    def warName = war.archiveFileName.get()
+    println "${project.properties.get("test")}"
+    if(catalinaHome == null) {
+        throw new GradleException("Environment 'CATALINA_HOME' is not set")
+    }
+    from "$buildDir/libs/$warName"
+    into "$catalinaHome/webapps"
+}
+
+war {
+    archiveName 'ROOT.war'
 }
