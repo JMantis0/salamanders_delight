@@ -45,5 +45,5 @@ tasks.register("deploy", Copy) {
 }
 
 war {
-    archiveName 'salamander.war'
+    archiveName 'ROOT.war'
 }

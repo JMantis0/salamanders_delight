@@ -1,4 +1,4 @@
-package base.screens;
+package base.pages;
 
 import java.util.Map;
 

@@ -14,6 +14,7 @@ public class WelcomeServlet extends HttpServlet {
     @Override
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("This will be called for every single request (service(req, res))");
+        res.setStatus(200);
     }
 
     @Override
@@ -23,7 +24,8 @@ public class WelcomeServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        System.out.println("This will be called only once.  To initialize the servlet");
+        System.out.println("This will be called only once.  To initialize the servlet ");
+
 
     }
 }

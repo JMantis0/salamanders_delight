@@ -11,11 +11,30 @@
     <servlet>
         <servlet-name>WelcomeServlet</servlet-name>
         <servlet-class>base.servlets.WelcomeServlet</servlet-class>
+        <init-param>
+            <param-name>Favorite_Show</param-name>
+            <param-value>The Red Green Show</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
-    <sevlet-mapping>
+    <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/api/welcome/*</url-pattern>
-    </sevlet-mapping>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>servlet1</servlet-name>
+        <servlet-class>base.servlets.AddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>servlet1</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>servlet2</servlet-name>
+        <servlet-class>base.servlets.SampleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>servlet2</servlet-name>
+        <url-pattern>/details</url-pattern>
+    </servlet-mapping>
 </web-app>
-
-
