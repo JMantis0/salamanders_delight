@@ -7,7 +7,7 @@ import org.bson.types.ObjectId;
 public class Employee {
   String firstName;
   String lastName;
-  int empID;
+  String empID;
   String password;
   ObjectId _id; // For Mongo
 
@@ -15,7 +15,7 @@ public class Employee {
   public Employee() {
   }
 
-  public Employee(String firstName, String lastName, int empID, String password, ObjectId _id) {
+  public Employee(String firstName, String lastName, String empID, String password, ObjectId _id) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.empID = empID;
@@ -40,11 +40,11 @@ public class Employee {
     this.lastName = lastName;
   }
 
-  public int getEmpID() {
+  public String getEmpID() {
     return empID;
   }
 
-  public void setEmpID(int empID) {
+  public void setEmpID(String empID) {
     this.empID = empID;
   }
 

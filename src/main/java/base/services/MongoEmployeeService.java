@@ -12,13 +12,20 @@ public class MongoEmployeeService implements MongoService{
         return null;
     }
 
-    public boolean checkIfPasswordMatches(String clientPasswordAttempt, int empID) {
-        //First get the password stored in db.
+    @Override
+    public boolean isPasswordValid(String empID, String passwordAttempt) {
+        System.out.println("Inside MongoEmployeeService: isPasswordValid(" + empID + ", " + passwordAttempt + ")");
+        boolean passwordIsValid = false;
+        System.out.println("Calling dao.getEmployeePassword(" + empID + ")");
         String correctPassword = dao.getEmployeePassword(empID);
-        if (clientPasswordAttempt == correctPassword) {
-            return true;
+        System.out.println("result is: " + correctPassword);
+        System.out.println("Does the login password from client, " + passwordAttempt + "match the actual password, " + correctPassword + "?");
+        if(passwordAttempt.equals(correctPassword)) {
+            System.out.println("Yes, it matches");
+            passwordIsValid = true;
         } else {
-            return false;
+            System.out.println("It does not match");
         }
+        return passwordIsValid;
     }
 }

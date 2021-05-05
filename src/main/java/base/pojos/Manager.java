@@ -6,7 +6,7 @@ public class Manager extends Employee {
     public Manager() {
     }
 
-    public Manager(String firstName, String lastName, int empID, String password, ObjectId _id) {
+    public Manager(String firstName, String lastName, String empID, String password, ObjectId _id) {
         super(firstName, lastName, empID, password, _id);
     }
 
@@ -31,12 +31,12 @@ public class Manager extends Employee {
     }
 
     @Override
-    public int getEmpID() {
+    public String getEmpID() {
         return super.getEmpID();
     }
 
     @Override
-    public void setEmpID(int empID) {
+    public void setEmpID(String empID) {
         super.setEmpID(empID);
     }
 

@@ -27,7 +27,9 @@ const Login = () => {
   const submitLogin = () => {
     console.log("Calling Login Servlet with formData: ", formData);
     axios
-      .get(`/api/login?empID=${formData.empID}&password=${formData.password}`)
+      .post("/api/passwordcheck", formData, {
+        headers: { "Content-Type": "application/json" },
+      })
       .then((response) => {
         console.log("response: ", response);
       })
@@ -54,7 +56,9 @@ const Login = () => {
           name="password"
           onChange={updateFormData}
         />
-        <Button color="primary" variant="contained" onClick={submitLogin}>Submit</Button>
+        <Button color="primary" variant="contained" onClick={submitLogin}>
+          Submit
+        </Button>
       </form>
     </div>
   );

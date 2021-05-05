@@ -2,7 +2,15 @@ package base.daos;
 
 import base.MongoConnector;
 import base.pojos.Employee;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Projections.fields;
+import static com.mongodb.client.model.Projections.include;
 
 public class MongoDao implements Dao {
     MongoConnector connector;
@@ -12,12 +20,23 @@ public class MongoDao implements Dao {
         this.connector = connector;
         this.employees = this.connector
                 .getClient()
-                .getDatabase("pzbank")
+                .getDatabase("salamander")
                 .getCollection("employees", Employee.class);
     }
 
     @Override
-    public String getEmployeePassword(int empID) {
-        return null;
+    public String getEmployeePassword(String empID) {
+        System.out.println("Inside mongodao getEmployeePassword(" + empID + ").");
+        String correctPassword;
+        try {
+            correctPassword = this.employees.find(eq("empID", empID)).first().getPassword();
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("No such user exists");
+            correctPassword = null;
+        }
+        System.out.println("did it return anything?");
+        System.out.println("Inside MongoDao. correctPassword is: " + correctPassword);
+        return correctPassword;
     }
 }
