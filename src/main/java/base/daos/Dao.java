@@ -4,6 +4,6 @@ import base.pojos.Employee;
 
 public interface Dao {
     //Model the db
-    String getEmployeePassword(int empID);
+    String getEmployeePassword(String empID);
 
 }
