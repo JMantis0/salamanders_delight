@@ -1,6 +1,7 @@
 package base.services;
 
 import base.daos.Dao;
+import base.pojos.Employee;
 
 public class MongoEmployeeService implements MongoService{
     private Dao dao;
@@ -10,6 +11,17 @@ public class MongoEmployeeService implements MongoService{
     @Override
     public Object findOne(String id) {
         return null;
+    }
+
+    public boolean doesUserExist(String empID) {
+        System.out.println("Inside MongoEmployeeService : doesUserExists(" + empID + ")");
+        boolean userExists = false;
+        Employee emp = dao.getEmployee(empID);
+        System.out.println("Value of emp: " + emp);
+        if(emp != null) {
+            userExists = true;
+        }
+        return userExists;
     }
 
     @Override

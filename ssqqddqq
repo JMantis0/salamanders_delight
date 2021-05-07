@@ -1,0 +1,169 @@
+[1mdiff --git a/src/main/java/base/daos/Dao.java b/src/main/java/base/daos/Dao.java[m
+[1mindex 6002ffc..820e9d8 100644[m
+[1m--- a/src/main/java/base/daos/Dao.java[m
+[1m+++ b/src/main/java/base/daos/Dao.java[m
+[36m@@ -5,5 +5,5 @@[m [mimport base.pojos.Employee;[m
+ public interface Dao {[m
+     //Model the db[m
+     String getEmployeePassword(String empID);[m
+[31m-[m
+[32m+[m[32m    Employee getEmployee(String empID);[m[41m[m
+ }[m
+[1mdiff --git a/src/main/java/base/daos/MongoDao.java b/src/main/java/base/daos/MongoDao.java[m
+[1mindex 5be66cb..f59730f 100644[m
+[1m--- a/src/main/java/base/daos/MongoDao.java[m
+[1m+++ b/src/main/java/base/daos/MongoDao.java[m
+[36m@@ -26,7 +26,7 @@[m [mpublic class MongoDao implements Dao {[m
+ [m
+     @Override[m
+     public String getEmployeePassword(String empID) {[m
+[31m-        System.out.println("Inside mongodao getEmployeePassword(" + empID + ").");[m
+[32m+[m[32m        System.out.println("Inside MongoDao getEmployeePassword(" + empID + ").");[m[41m[m
+         String correctPassword;[m
+         try {[m
+             correctPassword = this.employees.find(eq("empID", empID)).first().getPassword();[m
+[36m@@ -39,4 +39,12 @@[m [mpublic class MongoDao implements Dao {[m
+         System.out.println("Inside MongoDao. correctPassword is: " + correctPassword);[m
+         return correctPassword;[m
+     }[m
+[32m+[m[41m[m
+[32m+[m[32m    @Override[m[41m[m
+[32m+[m[32m    public Employee getEmployee(String empID) {[m[41m[m
+[32m+[m[32m        System.out.println("Inside MongoDao getEmployee(" + empID + ").");[m[41m[m
+[32m+[m[32m        Employee emp = this.employees.find(eq("empID", empID)).first();[m[41m[m
+[32m+[m[32m        System.out.println(emp.toString());[m[41m[m
+[32m+[m[32m        return this.employees.find(eq("empID", empID)).first();[m[41m[m
+[32m+[m[32m    }[m[41m[m
+ }[m
+[1mdiff --git a/src/main/java/base/pojos/Employee.java b/src/main/java/base/pojos/Employee.java[m
+[1mindex 8972e12..57700bc 100644[m
+[1m--- a/src/main/java/base/pojos/Employee.java[m
+[1m+++ b/src/main/java/base/pojos/Employee.java[m
+[36m@@ -2,14 +2,13 @@[m [mpackage base.pojos;[m
+ [m
+ import org.bson.types.ObjectId;[m
+ [m
+[31m-[m
+[31m-[m
+ public class Employee {[m
+[31m-  String firstName;[m
+[31m-  String lastName;[m
+[31m-  String empID;[m
+[31m-  String password;[m
+[31m-  ObjectId _id; // For Mongo[m
+[32m+[m[32m  private String firstName;[m[41m[m
+[32m+[m[32m  private String lastName;[m[41m[m
+[32m+[m[32m  private String empID;[m[41m[m
+[32m+[m[32m  private String password;[m[41m[m
+[32m+[m[32m  private boolean isManager;[m[41m[m
+[32m+[m[32m  private ObjectId _id; // For Mongo[m[41m[m
+ [m
+   //Constructors[m
+   public Employee() {[m
+[36m@@ -56,6 +55,14 @@[m [mpublic class Employee {[m
+     this.password = password;[m
+   }[m
+ [m
+[32m+[m[32m  public boolean isManager() {[m[41m[m
+[32m+[m[32m    return isManager;[m[41m[m
+[32m+[m[32m  }[m[41m[m
+[32m+[m[41m[m
+[32m+[m[32m  public void setManager(boolean manager) {[m[41m[m
+[32m+[m[32m    isManager = manager;[m[41m[m
+[32m+[m[32m  }[m[41m[m
+[32m+[m[41m[m
+   public ObjectId get_id() {[m
+     return _id;[m
+   }[m
+[36m@@ -63,4 +70,16 @@[m [mpublic class Employee {[m
+   public void set_id(ObjectId _id) {[m
+     this._id = _id;[m
+   }[m
+[32m+[m[41m[m
+[32m+[m[32m  @Override[m[41m[m
+[32m+[m[32m  public String toString() {[m[41m[m
+[32m+[m[32m    return "Employee{" +[m[41m[m
+[32m+[m[32m            "firstName='" + firstName + '\'' +[m[41m[m
+[32m+[m[32m            ", lastName='" + lastName + '\'' +[m[41m[m
+[32m+[m[32m            ", empID='" + empID + '\'' +[m[41m[m
+[32m+[m[32m            ", password='" + password + '\'' +[m[41m[m
+[32m+[m[32m            ", isManager=" + isManager +[m[41m[m
+[32m+[m[32m            ", _id=" + _id +[m[41m[m
+[32m+[m[32m            '}';[m[41m[m
+[32m+[m[32m  }[m[41m[m
+ }[m
+[1mdiff --git a/src/main/java/base/services/MongoEmployeeService.java b/src/main/java/base/services/MongoEmployeeService.java[m
+[1mindex a07b4b8..3c1e3a8 100644[m
+[1m--- a/src/main/java/base/services/MongoEmployeeService.java[m
+[1m+++ b/src/main/java/base/services/MongoEmployeeService.java[m
+[36m@@ -1,6 +1,7 @@[m
+ package base.services;[m
+ [m
+ import base.daos.Dao;[m
+[32m+[m[32mimport base.pojos.Employee;[m[41m[m
+ [m
+ public class MongoEmployeeService implements MongoService{[m
+     private Dao dao;[m
+[36m@@ -12,6 +13,17 @@[m [mpublic class MongoEmployeeService implements MongoService{[m
+         return null;[m
+     }[m
+ [m
+[32m+[m[32m    public boolean doesUserExist(String empID) {[m[41m[m
+[32m+[m[32m        System.out.println("Inside MongoEmployeeService : doesUserExists(" + empID + ")");[m[41m[m
+[32m+[m[32m        boolean userExists = false;[m[41m[m
+[32m+[m[32m        Employee emp = dao.getEmployee(empID);[m[41m[m
+[32m+[m[32m        System.out.println("Value of emp: " + emp);[m[41m[m
+[32m+[m[32m        if(emp != null) {[m[41m[m
+[32m+[m[32m            userExists = true;[m[41m[m
+[32m+[m[32m        }[m[41m[m
+[32m+[m[32m        return userExists;[m[41m[m
+[32m+[m[32m    }[m[41m[m
+[32m+[m[41m[m
+     @Override[m
+     public boolean isPasswordValid(String empID, String passwordAttempt) {[m
+         System.out.println("Inside MongoEmployeeService: isPasswordValid(" + empID + ", " + passwordAttempt + ")");[m
+[1mdiff --git a/src/main/java/base/services/MongoService.java b/src/main/java/base/services/MongoService.java[m
+[1mindex 1d9b16b..f825245 100644[m
+[1m--- a/src/main/java/base/services/MongoService.java[m
+[1m+++ b/src/main/java/base/services/MongoService.java[m
+[36m@@ -3,4 +3,5 @@[m [mpackage base.services;[m
+ public interface MongoService<E> {[m
+     E findOne(String id);[m
+     boolean isPasswordValid(String empID, String password);[m
+[32m+[m[32m    boolean doesUserExist(String empID);[m[41m[m
+ }[m
+[1mdiff --git a/src/main/java/base/servlets/LoginServlet.java b/src/main/java/base/servlets/LoginServlet.java[m
+[1mindex 9cf8f3a..b2bdc6b 100644[m
+[1m--- a/src/main/java/base/servlets/LoginServlet.java[m
+[1m+++ b/src/main/java/base/servlets/LoginServlet.java[m
+[36m@@ -43,22 +43,24 @@[m [mpublic class LoginServlet extends HttpServlet {[m
+     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {[m
+         System.out.println("************************");[m
+         System.out.println("Inside doPost");[m
+[31m-        System.out.println("create body reader");[m
+         BufferedReader bodyReader = req.getReader();[m
+         String bodyString = bodyReader.lines().collect(Collectors.joining());[m
+[31m-        System.out.println("Attempting to display bodyString UPDATE");[m
+[32m+[m[32m        System.out.println("bodyString:");[m[41m[m
+         System.out.println(bodyString);[m
+         mapper = new ObjectMapper();[m
+         System.out.println(mapper.toString());[m
+         PasswordChecker pc = mapper.readValue(bodyString, PasswordChecker.class);[m
+[31m-        System.out.println(pc.toString());[m
+[31m-        System.out.println("passwordCheckerObject gets: ");[m
+[32m+[m[32m        System.out.println("EmpID");[m[41m[m
+         System.out.println(pc.getEmpID());[m
+[32m+[m[32m        System.out.println("password");[m[41m[m
+         System.out.println(pc.getPassword());[m
+[31m-        //  Cool, we've got the strings!!! Holy god yes.  Now call the service method and access the dao.[m
+[31m-        System.out.println("Checking to see if the pw is valid");[m
+[32m+[m[32m        System.out.println("call service.isPasswordValid");[m[41m[m
+[32m+[m[32m        boolean doesUserExists = service.doesUserExist(pc.getEmpID());[m[41m[m
+         boolean isPasswordValid = service.isPasswordValid(pc.getEmpID(), pc.getPassword());[m
+         System.out.println(isPasswordValid);[m
+[32m+[m[32m        //  Depending on wether the password is valid or not, the user should either be directed to the[m[41m[m
+[32m+[m[32m        //  appropriate page or the user should recieve a message indicating a bad user/password combo.[m[41m[m
+[32m+[m[32m        //   Maybe first I want to check if the user exists and THEN check to see if the password matches.[m[41m[m
+ [m
+ [m
+     }[m
