@@ -3,6 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
   const [formData, setFormData] = useState({ empID: "", password: "" });
+  const history = useHistory();
 
   const updateFormData = (e) => {
     const fieldName = e.target.name;
@@ -31,11 +33,20 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        console.log("response: ", response);
+        const nextURL = response.data
+        console.log(response);
+        console.log(nextURL);
+        history.push(nextURL);
       })
       .catch((err) => {
-        console.log("There was an error calling Login Servlet: ", err);
-      });
+        const nextURL= err.response.data;
+        console.log(err.response);
+        console.log(nextURL);
+        console.log('"/nosuchuser" === nextURL"', "/nosuchuser" === nextURL);
+        console.log(typeof nextURL);
+        console.log(nextURL);
+        history.push(nextURL)
+      }); 
   };
 
   return (
