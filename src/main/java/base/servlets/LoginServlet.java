@@ -9,6 +9,7 @@ import base.services.MongoService;
 import base.utils.PasswordChecker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClientSettings;
+import javafx.util.Pair;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -28,19 +29,27 @@ public class LoginServlet extends HttpServlet {
     private MongoService service;
     private Controller controller;
     private ObjectMapper mapper;
+    private int responseStatus;
+    private String nextURL;
+    private PrintWriter responseWriter;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        int responseStatus;
-        int responseData;
-        PrintWriter responseWriter = res.getWriter();
-        System.out.println("************************");
         System.out.println("Inside doPost");
+        //  Get data from the request object to create a PasswordChecker object
         BufferedReader bodyReader = req.getReader();
         String bodyString = bodyReader.lines().collect(Collectors.joining());
-        mapper = new ObjectMapper();
         PasswordChecker pc = mapper.readValue(bodyString, PasswordChecker.class);
-        System.out.println(controller.loginAttemptAndGetNextURL(pc.getEmpID(), pc.getPassword()));
+        //  Use PasswordChecker object's field values to call the controller and set the response status/nexturl
+        Pair<String, Integer> nextURLandStatus = controller.loginAttemptAndGetNextURL(pc.getEmpID(), pc.getPassword());
+        nextURL = nextURLandStatus.getKey();
+        responseStatus = nextURLandStatus.getValue();
+        //  Configure the response object and set the response status
+        res.setContentType("text/plain");
+        res.setStatus(responseStatus);
+        //  Write the nextURL string and send response to client
+        responseWriter = res.getWriter();
+        responseWriter.print(nextURL);
 
     }
 
@@ -59,5 +68,6 @@ public class LoginServlet extends HttpServlet {
         dao = new MongoDao(connector);
         service = new MongoEmployeeService(dao);
         controller = new Controller(service);
+        mapper = new ObjectMapper();
     }
 }

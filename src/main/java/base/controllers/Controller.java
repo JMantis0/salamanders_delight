@@ -1,7 +1,7 @@
 package base.controllers;
 
 import base.services.MongoService;
-
+import javafx.util.Pair;
 public class Controller {
     protected MongoService service;
 
@@ -16,8 +16,8 @@ public class Controller {
      * @param password provided by the client.  Used as parameter in service method calls.
      * @return nextURL - instructs the client which page to render next.
      */
-    public String loginAttemptAndGetNextURL(String empID, String password) {
-        String nextURL;
+    public Pair<String, Integer> loginAttemptAndGetNextURL(String empID, String password) {
+        Pair<String, Integer> nextURLandStatus;
         System.out.println("Inside Controller \n Method loginAttempt(" + empID + ", " + password + ")");
         //First see if there exists a user with empID.
         boolean doesUserExist = service.doesUserExist(empID);
@@ -26,16 +26,16 @@ public class Controller {
             boolean isPasswordValid = service.isPasswordValid(empID, password);
             if (isPasswordValid) {
                 // The Password is valid.  Return the EmployeeHome URL
-                nextURL = "/employeehome";
+                nextURLandStatus = new Pair<>("/employeehome", 200);
             } else {
                 //  The Password is invalid.  Return the InvalidPassword URL
-                nextURL = "/invalidpassword";
+                nextURLandStatus = new Pair<>("/invalidpassword", 401);
             }
         } else {
             //  No such user exists.  Return the NoSuchUser URL
-            nextURL = "/nosuchuser";
+            nextURLandStatus = new Pair<>("/nosuchuser", 401);
         }
-        return nextURL;
+        return nextURLandStatus;
     }
 
     public MongoService getService() {

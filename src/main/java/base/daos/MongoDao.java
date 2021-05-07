@@ -35,8 +35,6 @@ public class MongoDao implements Dao {
             System.out.println("No such user exists");
             correctPassword = null;
         }
-        System.out.println("did it return anything?");
-        System.out.println("Inside MongoDao. correctPassword is: " + correctPassword);
         return correctPassword;
     }
 
@@ -44,7 +42,6 @@ public class MongoDao implements Dao {
     public Employee getEmployee(String empID) {
         System.out.println("Inside MongoDao getEmployee(" + empID + ").");
         Employee emp = employees.find(eq("empID", empID)).first();
-        System.out.println("emp is: " + emp);
         return employees.find(eq("empID", empID)).first();
     }
 }
