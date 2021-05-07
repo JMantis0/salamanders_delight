@@ -27,4 +27,12 @@ public class PasswordChecker {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "PasswordChecker{" +
+                "empID='" + empID + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

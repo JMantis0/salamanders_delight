@@ -26,10 +26,10 @@ public class MongoDao implements Dao {
 
     @Override
     public String getEmployeePassword(String empID) {
-        System.out.println("Inside mongodao getEmployeePassword(" + empID + ").");
+        System.out.println("Inside MongoDao getEmployeePassword(" + empID + ").");
         String correctPassword;
         try {
-            correctPassword = this.employees.find(eq("empID", empID)).first().getPassword();
+            correctPassword = employees.find(eq("empID", empID)).first().getPassword();
         } catch(NullPointerException e) {
             e.printStackTrace();
             System.out.println("No such user exists");
@@ -38,5 +38,13 @@ public class MongoDao implements Dao {
         System.out.println("did it return anything?");
         System.out.println("Inside MongoDao. correctPassword is: " + correctPassword);
         return correctPassword;
+    }
+
+    @Override
+    public Employee getEmployee(String empID) {
+        System.out.println("Inside MongoDao getEmployee(" + empID + ").");
+        Employee emp = employees.find(eq("empID", empID)).first();
+        System.out.println("emp is: " + emp);
+        return employees.find(eq("empID", empID)).first();
     }
 }
