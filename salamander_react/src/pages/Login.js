@@ -29,22 +29,15 @@ const Login = () => {
   const submitLogin = () => {
     console.log("Calling Login Servlet with formData: ", formData);
     axios
-      .post("/api/passwordcheck", formData, {
+      .post("/api/attempt_login", formData, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        const nextURL = response.data
-        console.log(response);
-        console.log(nextURL);
+        const nextURL = response.data;
         history.push(nextURL);
       })
       .catch((err) => {
         const nextURL= err.response.data;
-        console.log(err.response);
-        console.log(nextURL);
-        console.log('"/nosuchuser" === nextURL"', "/nosuchuser" === nextURL);
-        console.log(typeof nextURL);
-        console.log(nextURL);
         history.push(nextURL)
       }); 
   };
@@ -54,13 +47,15 @@ const Login = () => {
       This will be the login page
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
-          id="outlined-basic"
+          autocomplete="off"
+          type="text"
           label="Employee ID"
           variant="outlined"
           name="empID"
           onChange={updateFormData}
         />
         <TextField
+          autocomplete="off"
           type="password"
           label="Password"
           variant="outlined"
