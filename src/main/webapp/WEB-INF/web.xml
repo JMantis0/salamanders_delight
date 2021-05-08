@@ -11,25 +11,10 @@
 <!--    This is the first servlet that actually performs user-story work-->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>base.servlets.LoginServlet</servlet-class>
+        <servlet-class>com.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/api/passwordcheck</url-pattern>
+        <url-pattern>/api/attempt_login</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <servlet-class>base.servlets.WelcomeServlet</servlet-class>
-        <init-param>
-            <param-name>Favorite_Show</param-name>
-            <param-value>The Red Green Show</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <url-pattern>/api/welcome/*</url-pattern>
-    </servlet-mapping>
-
 </web-app>

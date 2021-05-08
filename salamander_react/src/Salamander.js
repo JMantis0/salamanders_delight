@@ -20,16 +20,16 @@ function Salamander() {
         <Route exact path="/login">
           <Login />
         </Route>
-        <Route exact path="/employeehome">
+        <Route exact path="/employee_home">
           <EmployeeHome />
         </Route>
-        <Route exact path="/managerhome">
+        <Route exact path="/manager_home">
           <ManagerHome />
         </Route>
-        <Route exact path="/invalidpassword">
+        <Route exact path="/invalid_password">
           <InvalidPassword />
         </Route>
-        <Route exact path="/nosuchuser">
+        <Route exact path="/no_such_user">
           <NoSuchUser />
         </Route>
       </Switch>
