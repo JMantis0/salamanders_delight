@@ -1,8 +1,13 @@
 package com.daos;
 
+import com.mongodb.MongoClientSettings;
 import com.utils.MongoConnector;
 import com.pojos.Employee;
 import com.mongodb.client.MongoCollection;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.fields;
@@ -18,13 +23,62 @@ public class MongoDao implements Dao {
     MongoConnector connector;
     MongoCollection<Employee> employees;
 
+
+
     public MongoDao(){}
     public MongoDao(MongoConnector connector) {
         this.connector = connector;
+        //This configuration can be removed from the constructor and instead be a executed by a method.
         this.employees = this.connector
                 .getClient()
                 .getDatabase("salamander")
                 .getCollection("employees", Employee.class);
+    }
+
+    public MongoConnector getConnector() {
+        return connector;
+    }
+
+    public MongoCollection<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setConnector(MongoConnector connector) {
+        this.connector = connector;
+    }
+
+    public void setEmployees(MongoCollection<Employee> employees) {
+        this.employees = employees;
+    }
+
+    //Make a new method that configures the employees collection settings.
+    public void configureEmployeesCollection() {
+        this.employees= this.connector
+                .getClient()
+                .getDatabase("salamander")
+                .getCollection("employees", Employee.class);
+    }
+
+    /**
+     * Configures the connector.  The string in .register() should path to pojos package.
+     * the String in newConnectionString() is the mongoDB url that points to your db.
+     */
+    public void configureConnectorCodecAndRegistryAndCreateClient() {
+        connector.configure( () -> {
+            CodecProvider codecProvider = PojoCodecProvider.builder().register("com.pojos").build();
+            CodecRegistry registry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(codecProvider));
+            return MongoClientSettings.builder()
+                    .applyConnectionString(connector.newConnectionString("mongodb://localhost:27017/salamander"))
+                    .retryWrites(true)
+                    .codecRegistry(registry)
+                    .build();
+        }).createClient();
+    }
+
+    //Make new Constructor that accepts a MongoCollection Object as a parameter.  This will make the code more testable.
+    public MongoDao(MongoConnector connector, MongoCollection<Employee> employees) {
+        this.connector = connector;
+        this.employees = employees;
     }
 
     /**
@@ -60,4 +114,5 @@ public class MongoDao implements Dao {
         Employee emp = employees.find(eq("empID", empID)).first();
         return emp;
     }
+
 }
