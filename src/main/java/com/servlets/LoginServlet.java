@@ -9,13 +9,7 @@ import com.services.MongoEmployeeService;
 import com.services.MongoService;
 import com.utils.PasswordChecker;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.MongoClientSettings;
 import javafx.util.Pair;
-import org.bson.codecs.configuration.CodecProvider;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +25,9 @@ import java.util.stream.Collectors;
  * <p>Extends the HttpServlet interface to provide a specific implementation for doPost </p>
  */
 public class LoginServlet extends HttpServlet {
+    private MongoConnector connector;
     private Dao dao;
-    private MongoService service;
+    private MongoEmployeeService service;
     private Controller controller;
     private ObjectMapper mapper;
     private BufferedReader bodyReader;
@@ -42,7 +37,20 @@ public class LoginServlet extends HttpServlet {
     private int responseStatus;
     private String nextURL;
     private PrintWriter responseWriter;
-
+    /**
+     * Creates and configures a MongoConnector, and uses it to initialize a chain of MVC Objects:
+     * <ul><li>MongoDao</li><li>MongoEmployeeService</li><li>ReactController</li></ul>
+     * as well as an ObjectMapper to be used by doPost().
+     * @throws ServletException
+     */
+    @Override
+    public void init() throws ServletException {
+        connector = new MongoConnector();
+        connector.configureCodecAndRegistryAndCreateClient();
+        dao = new MongoDao(connector);
+        service = new MongoEmployeeService(dao);
+        controller = new ReactController(service);
+    }
     /**
      * Reads the empID and password provided by the client request and determines whether the user exists
      * and then whether the password provided by the client is the next password.  Then returns the appropriate
@@ -57,6 +65,7 @@ public class LoginServlet extends HttpServlet {
         //  Get data from the request object to create a PasswordChecker object
         bodyReader = req.getReader();
         bodyString = bodyReader.lines().collect(Collectors.joining());
+        mapper = new ObjectMapper();
         passwordChecker = mapper.readValue(bodyString, PasswordChecker.class);
         //  Use PasswordChecker object's field values to call the controller and set the response status/nexturl
         nextURLandStatus = controller.loginAttemptAndGetNextURL(passwordChecker.getEmpID(), passwordChecker.getPassword());
@@ -68,29 +77,5 @@ public class LoginServlet extends HttpServlet {
         //  Write the nextURL string and send response to client
         responseWriter = res.getWriter();
         responseWriter.print(nextURL);
-    }
-
-    /**
-     * Creates and configures a MongoConnector, and uses it to initialize a chain of MVC Objects:
-     * <ul><li>MongoDao</li><li>MongoEmployeeService</li><li>ReactController</li></ul>
-     * as well as an ObjectMapper to be used by doPost().
-     * @throws ServletException
-     */
-    @Override
-    public void init() throws ServletException {
-        MongoConnector connector = new MongoConnector();
-        connector.configure( () -> {
-            CodecProvider codecProvider = PojoCodecProvider.builder().register("com.pojos").build();
-            CodecRegistry registry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(codecProvider));
-            return MongoClientSettings.builder()
-                    .applyConnectionString(connector.newConnectionString("mongodb://localhost:27017/salamander"))
-                    .retryWrites(true)
-                    .codecRegistry(registry)
-                    .build();
-        }).createClient();
-        dao = new MongoDao(connector);
-        service = new MongoEmployeeService(dao);
-        controller = new ReactController(service);
-        mapper = new ObjectMapper();
     }
 }

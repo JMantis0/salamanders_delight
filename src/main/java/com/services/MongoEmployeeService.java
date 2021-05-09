@@ -32,11 +32,10 @@ public class MongoEmployeeService implements MongoService{
      * @param empID a String containing and employee ID.
      * @return userExists - a boolean whose value indicates whether or not such an employee exists.
      */
-    @Override
     public boolean doesUserExist(String empID) {
         System.out.println("Inside MongoEmployeeService : doesUserExists(" + empID + ")");
         boolean userExists = false;
-        Employee emp = dao.getEmployee(empID);
+        Employee emp = dao.getEmployeeByEmpID(empID);
         if(emp != null) {
             userExists = true;
         }
@@ -52,11 +51,10 @@ public class MongoEmployeeService implements MongoService{
      * @param passwordAttempt  provided by client, used to compare with password in DB.
      * @return boolean passwordIsValid - Represents whether the password provided by the client is correct or incorrect.
      */
-    @Override
     public boolean isPasswordValid(String empID, String passwordAttempt) {
         System.out.println("Inside MongoEmployeeService: isPasswordValid(" + empID + ", " + passwordAttempt + ")");
         boolean passwordIsValid = false;
-        String correctPassword = dao.getEmployeePassword(empID);
+        String correctPassword = dao.getEmployeePasswordByEmpID(empID);
         if(passwordAttempt.equals(correctPassword)) {
             passwordIsValid = true;
         }

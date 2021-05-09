@@ -1,5 +1,6 @@
 package com.controllers;
 ;
+import com.services.MongoEmployeeService;
 import com.services.MongoService;
 import javafx.util.Pair;
 
@@ -13,9 +14,9 @@ import javafx.util.Pair;
 
 
 public class ReactController implements Controller {
-    protected MongoService service;
+    protected MongoEmployeeService service;
     public ReactController() {}
-    public ReactController(MongoService service) {
+    public ReactController(MongoEmployeeService service) {
         this.service = service;
     }
 
@@ -30,6 +31,7 @@ public class ReactController implements Controller {
         System.out.println("Inside Controller \n Method loginAttempt(" + empID + ", " + password + ")");
         //First see if there exists a user with empID.
         boolean doesUserExist = service.doesUserExist(empID);
+
         if(doesUserExist) {
             //  The user exists.  Now check if client provided the correct user password.
             boolean isPasswordValid = service.isPasswordValid(empID, password);

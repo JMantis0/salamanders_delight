@@ -2,6 +2,7 @@ package tests.controllers;
 
 import com.controllers.Controller;
 import com.controllers.ReactController;
+import com.services.MongoEmployeeService;
 import com.services.MongoService;
 import javafx.util.Pair;
 import org.junit.Assert;
@@ -14,11 +15,11 @@ import org.mockito.Mockito;
 public class ReactControllerTest {
 
     private Controller controller;
-    private MongoService mockService;
+    private MongoEmployeeService mockService;
 
     @Before
     public void initTestDependencies() {
-        mockService = Mockito.mock(MongoService.class);
+        mockService = Mockito.mock(MongoEmployeeService.class);
         controller = new ReactController(mockService);
     }
 

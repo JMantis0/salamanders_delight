@@ -1,6 +1,8 @@
 package com.daos;
 
 import com.mongodb.MongoClientSettings;
+import com.pojos.Manager;
+import com.pojos.ReimbursementRequest;
 import com.utils.MongoConnector;
 import com.pojos.Employee;
 import com.mongodb.client.MongoCollection;
@@ -22,8 +24,8 @@ import static com.mongodb.client.model.Projections.include;
 public class MongoDao implements Dao {
     MongoConnector connector;
     MongoCollection<Employee> employees;
-
-
+    MongoCollection<Manager> managers;
+    MongoCollection<ReimbursementRequest> reimbursementRequests;
 
     public MongoDao(){}
     public MongoDao(MongoConnector connector) {
@@ -33,52 +35,14 @@ public class MongoDao implements Dao {
                 .getClient()
                 .getDatabase("salamander")
                 .getCollection("employees", Employee.class);
-    }
-
-    public MongoConnector getConnector() {
-        return connector;
-    }
-
-    public MongoCollection<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setConnector(MongoConnector connector) {
-        this.connector = connector;
-    }
-
-    public void setEmployees(MongoCollection<Employee> employees) {
-        this.employees = employees;
-    }
-
-    //Make a new method that configures the employees collection settings.
-    public void configureEmployeesCollection() {
-        this.employees= this.connector
+        this.managers = this.connector
                 .getClient()
                 .getDatabase("salamander")
-                .getCollection("employees", Employee.class);
-    }
-
-    /**
-     * Configures the connector.  The string in .register() should path to pojos package.
-     * the String in newConnectionString() is the mongoDB url that points to your db.
-     */
-    public void configureConnectorCodecAndRegistryAndCreateClient() {
-        connector.configure( () -> {
-            CodecProvider codecProvider = PojoCodecProvider.builder().register("com.pojos").build();
-            CodecRegistry registry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(codecProvider));
-            return MongoClientSettings.builder()
-                    .applyConnectionString(connector.newConnectionString("mongodb://localhost:27017/salamander"))
-                    .retryWrites(true)
-                    .codecRegistry(registry)
-                    .build();
-        }).createClient();
-    }
-
-    //Make new Constructor that accepts a MongoCollection Object as a parameter.  This will make the code more testable.
-    public MongoDao(MongoConnector connector, MongoCollection<Employee> employees) {
-        this.connector = connector;
-        this.employees = employees;
+                .getCollection("managers", Manager.class);
+        this.reimbursementRequests = this.connector
+                .getClient()
+                .getDatabase("salamander")
+                .getCollection("reimbursementRequests", ReimbursementRequest.class);
     }
 
     /**
@@ -89,7 +53,7 @@ public class MongoDao implements Dao {
      * if there is no such employee.
      */
     @Override
-    public String getEmployeePassword(String empID) {
+    public String getEmployeePasswordByEmpID(String empID) {
         System.out.println("Inside MongoDao getEmployeePassword(" + empID + ").");
         String correctPassword;
         try {
@@ -109,10 +73,21 @@ public class MongoDao implements Dao {
      * @return an Employee object, or null.
      */
     @Override
-    public Employee getEmployee(String empID) {
+    public Employee getEmployeeByEmpID(String empID) {
         System.out.println("Inside MongoDao getEmployee(" + empID + ").");
         Employee emp = employees.find(eq("empID", empID)).first();
         return emp;
     }
 
+    public void setEmployees(MongoCollection<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public void setManagers(MongoCollection<Manager> managers) {
+        this.managers = managers;
+    }
+
+    public void setReimbursementRequests(MongoCollection<ReimbursementRequest> reimbursementRequests) {
+        this.reimbursementRequests = reimbursementRequests;
+    }
 }
