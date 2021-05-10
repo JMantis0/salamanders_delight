@@ -1,5 +1,6 @@
+import React, { useState } from "react";
 import Welcome from "./pages/Welcome";
-import Login from "./pages//Login";
+import Login from "./pages/Login/Login";
 import EmployeeHome from "./pages/EmployeeHome";
 import ManagerHome from "./pages/ManagerHome";
 import NoSuchUser from "./pages/NoSuchUser";
@@ -10,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
 
 function Salamander() {
+
   return (
     <Router>
       <Header />

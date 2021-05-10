@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { handleChange, selectLogin } from "./loginSlice";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,20 +20,21 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles();
-  const [formData, setFormData] = useState({ empID: "", password: "" });
+  const login = useAppSelector(selectLogin);
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const updateFormData = (e) => {
-    const fieldName = e.target.name;
-    const value = e.target.value;
-    console.log(`Updated ${fieldName} with value ${value}`);
-    setFormData({ ...formData, [fieldName]: value });
+  const formChangeHandler = (event: { target: { name: any; value: any; }; }) => {
+    const fieldName = event.target.name;
+    const value = event.target.value;
+    dispatch(handleChange({fieldName, value}));
   };
 
   const submitLogin = () => {
-    console.log("Calling Login Servlet with formData: ", formData);
+    console.log("login", login);
+    console.log("Calling Login Servlet with login object: ", login);
     axios
-      .post("/api/attempt_login", formData, {
+      .post("/api/attempt_login", login, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
@@ -37,9 +42,9 @@ const Login = () => {
         history.push(nextURL);
       })
       .catch((err) => {
-        const nextURL= err.response.data;
-        history.push(nextURL)
-      }); 
+        const nextURL = err.response.data;
+        history.push(nextURL);
+      });
   };
 
   return (
@@ -47,20 +52,20 @@ const Login = () => {
       This will be the login page
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
-          autocomplete="off"
+          autoComplete="off"
           type="text"
           label="Employee ID"
           variant="outlined"
           name="empID"
-          onChange={updateFormData}
+          onChange={formChangeHandler}
         />
         <TextField
-          autocomplete="off"
+          autoComplete="off"
           type="password"
           label="Password"
           variant="outlined"
           name="password"
-          onChange={updateFormData}
+          onChange={formChangeHandler}
         />
         <Button color="primary" variant="contained" onClick={submitLogin}>
           Submit
