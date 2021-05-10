@@ -1,8 +1,13 @@
 package com.controllers;
 ;
+import com.mongodb.client.FindIterable;
+import com.pojos.ReimbursementRequest;
 import com.services.MongoEmployeeService;
+import com.services.MongoReimbursementService;
 import com.services.MongoService;
 import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 /**
  * <h1>ReactController</h1>
@@ -14,9 +19,9 @@ import javafx.util.Pair;
 
 
 public class ReactController implements Controller {
-    protected MongoEmployeeService service;
+    protected MongoService service;
     public ReactController() {}
-    public ReactController(MongoEmployeeService service) {
+    public ReactController(MongoService service) {
         this.service = service;
     }
 
@@ -30,11 +35,11 @@ public class ReactController implements Controller {
         Pair<String, Integer> nextURLandStatus;
         System.out.println("Inside Controller \n Method loginAttempt(" + empID + ", " + password + ")");
         //First see if there exists a user with empID.
-        boolean doesUserExist = service.doesUserExist(empID);
+        boolean doesUserExist = ((MongoEmployeeService)service).doesUserExist(empID);
 
         if(doesUserExist) {
             //  The user exists.  Now check if client provided the correct user password.
-            boolean isPasswordValid = service.isPasswordValid(empID, password);
+            boolean isPasswordValid = ((MongoEmployeeService)service).isPasswordValid(empID, password);
             if (isPasswordValid) {
                 // The Password is valid.  Return the EmployeeHome URL
                 nextURLandStatus = new Pair<>("/employee_home", 200);
@@ -49,4 +54,9 @@ public class ReactController implements Controller {
         return nextURLandStatus;
     }
 
+    public FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID) {
+        System.out.println("Inside Controller getAllREquestsByEmpID" + empID);
+        FindIterable<ReimbursementRequest> allRequests = ((MongoReimbursementService)service).getAllRequestsByEmpID(empID);
+        return allRequests;
+    };
 }

@@ -61,7 +61,7 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        System.out.println("Inside doPost");
+        System.out.println("Inside LoginServlet doPost");
         //  Get data from the request object to create a PasswordChecker object
         bodyReader = req.getReader();
         bodyString = bodyReader.lines().collect(Collectors.joining());

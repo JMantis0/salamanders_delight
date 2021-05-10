@@ -1,19 +1,14 @@
 package com.daos;
 
-import com.mongodb.MongoClientSettings;
+import com.mongodb.client.FindIterable;
 import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
 import com.utils.MongoConnector;
 import com.pojos.Employee;
 import com.mongodb.client.MongoCollection;
-import org.bson.codecs.configuration.CodecProvider;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Projections.fields;
-import static com.mongodb.client.model.Projections.include;
+
 
 /**
  * <h1>MongoDao</h1>
@@ -25,7 +20,7 @@ public class MongoDao implements Dao {
     MongoConnector connector;
     MongoCollection<Employee> employees;
     MongoCollection<Manager> managers;
-    MongoCollection<ReimbursementRequest> reimbursementRequests;
+    MongoCollection<ReimbursementRequest> requests;
 
     public MongoDao(){}
     public MongoDao(MongoConnector connector) {
@@ -39,10 +34,10 @@ public class MongoDao implements Dao {
                 .getClient()
                 .getDatabase("salamander")
                 .getCollection("managers", Manager.class);
-        this.reimbursementRequests = this.connector
+        this.requests = this.connector
                 .getClient()
                 .getDatabase("salamander")
-                .getCollection("reimbursementRequests", ReimbursementRequest.class);
+                .getCollection("requests", ReimbursementRequest.class);
     }
 
     /**
@@ -79,6 +74,20 @@ public class MongoDao implements Dao {
         return emp;
     }
 
+    /**
+     * Queries the DB for all reimbursement requests with requesterID field matching the empID String parameter
+     * and returns the collection.
+     * @param empID used to query the MongoDB employee collection.
+     * @return a FindIterable{@code <ReimbursementRequest>}
+     */
+    @Override
+    public FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID) {
+        System.out.println("Inside MongoDao getAllRequestsByEmpID");
+        FindIterable<ReimbursementRequest> allRequests = requests.find(eq("requesterID", empID));
+        return allRequests;
+    }
+
+
     public void setEmployees(MongoCollection<Employee> employees) {
         this.employees = employees;
     }
@@ -88,6 +97,6 @@ public class MongoDao implements Dao {
     }
 
     public void setReimbursementRequests(MongoCollection<ReimbursementRequest> reimbursementRequests) {
-        this.reimbursementRequests = reimbursementRequests;
+        this.requests = reimbursementRequests;
     }
 }

@@ -11,7 +11,12 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
 
 function Salamander() {
-
+  // const updateFormData = (e) => {
+  //   const fieldName = e.target.name;
+  //   const value = e.target.value;
+  //   console.log(`Updated ${fieldName} with value ${value}`);
+  //   setFormData({ ...formData, [fieldName]: value });
+  // };
   return (
     <Router>
       <Header />
