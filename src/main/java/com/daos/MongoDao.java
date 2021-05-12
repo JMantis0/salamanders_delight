@@ -7,6 +7,8 @@ import com.utils.MongoConnector;
 import com.pojos.Employee;
 import com.mongodb.client.MongoCollection;
 
+import java.util.Iterator;
+
 import static com.mongodb.client.model.Filters.eq;
 
 
@@ -83,8 +85,19 @@ public class MongoDao implements Dao {
     @Override
     public FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID) {
         System.out.println("Inside MongoDao getAllRequestsByEmpID");
+        try{
+
         FindIterable<ReimbursementRequest> allRequests = requests.find(eq("requesterID", empID));
+            Iterator<ReimbursementRequest> iter = allRequests.iterator();
+            while(iter.hasNext()) {
+                System.out.println(iter.next());
+            }
+            System.out.println(allRequests);
         return allRequests;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

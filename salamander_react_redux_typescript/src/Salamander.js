@@ -6,7 +6,7 @@ import ManagerHome from "./pages/ManagerHome";
 import NoSuchUser from "./pages/NoSuchUser";
 import InvalidPassword from "./pages/InvalidPassword";
 
-import "./Salamander.css";
+import "./Salamander.module.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
 

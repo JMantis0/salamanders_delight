@@ -3,7 +3,7 @@ package com.pojos;
 import org.bson.types.ObjectId;
 
 public class ReimbursementRequest {
-    private int amount;
+    private double amount;
     private boolean resolved;
     private String requesterID;
     private String justification;
@@ -12,11 +12,11 @@ public class ReimbursementRequest {
     public ReimbursementRequest() {
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

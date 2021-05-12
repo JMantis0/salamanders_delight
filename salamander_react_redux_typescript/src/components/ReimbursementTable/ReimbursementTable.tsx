@@ -10,34 +10,39 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { selectLogin } from "../../redux/loginSlice";
-import { useAppSelector } from "../../redux/hooks";
+import { updateAllRequests, selectEmployeeRequests } from "../../redux/employeeRequestsSlice";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import styles from "../../Salamander.module.css";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
 
-const createReimbursementData = (
-  justification: string,
-  amount: number,
-  status: boolean
-) => {
-  return { justification, amount, status };
-};
+// const createReimbursementData = (
+//   requesterID: string,
+//   justification: string,
+//   amount: number,
+//   status: boolean,
+//   date: { timestamp: number; date: number }
+// ) => {
+//   return {requesterID, amount, justification, status, date};
+// };
 
-const rows = [createReimbursementData("Lodging", 100.0, false)];
-console.log(rows);
+// const rows = [createReimbursementData("Jesse", "Lodging", 100.0, false, {
+//   timestamp: 1,
+//   date: 1,
+// })];
+
 
 const ReimbursementTable = () => {
-  const classes = useStyles();
+  
   const login = useAppSelector(selectLogin);
+  const employeeRequests = useAppSelector(selectEmployeeRequests);
+  const dispatch = useAppDispatch();
 
   const getAllReimbursementRequestsForCurrentUser = () => {
     axios
       .get(`/api/get_requests?empID=${login.empID}`)
       .then((response) => {
-        console.log("response.data",response.data);
+        console.log("response.data", response.data);
+        dispatch(updateAllRequests(response.data));
       })
       .catch((err) => {
         console.log("there was an error: ", err.response);
@@ -53,8 +58,15 @@ const ReimbursementTable = () => {
       >
         Get Reimbursement Request Data
       </Button>
+      <Button
+        onClick={() => {
+          console.log(employeeRequests);
+        }}
+      >
+        console.log(employeeRequests)
+      </Button>
       <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="reimbursement table">
+        <Table className={styles.table} aria-label="reimbursement table">
           <TableHead>
             <TableRow>
               <TableCell>Justification</TableCell>
@@ -63,16 +75,14 @@ const ReimbursementTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow
-              key={row.justification}
-              >
+            {employeeRequests.requests.map((request) => (
+              <TableRow key={request.id.timestamp}>
                 <TableCell component="th" scope="row">
-                  {row.justification}
+                  {request.justification}
                 </TableCell>
-                <TableCell align="right">{row.amount}</TableCell>
+                <TableCell align="right">{request.amount}</TableCell>
                 <TableCell align="right">
-                  {row.status ? "Resolved" : "Pending"}
+                  {request.resolved ? "Resolved" : "Pending"}
                 </TableCell>
               </TableRow>
             ))}
