@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postbuild": "cp -a C:/Users/rootm/dev/revature/private_git/project_salamander/salamander_react_redux_typescript/build/.  C:/Users/rootm/dev/revature/private_git/project_salamander/salamanders_delight/src/main/webapp && cd C:/Users/rootm/dev/revature/private_git/project_salamander/salamanders_delight && gradle deploy"
+    "postbuild": "cp -a ./build/. ../src/main/webapp/ && cd .. && gradle deploy"
   },
   "eslintConfig": {
     "extends": "react-app"

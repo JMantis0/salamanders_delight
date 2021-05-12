@@ -22,10 +22,6 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-
-  
-
-
   const formChangeHandler = (event: { target: { name: any; value: any; }; }) => {
     const fieldName = event.target.name;
     const value = event.target.value;
