@@ -11,12 +11,24 @@ export interface SalamanderState {
   }>;
   loginState: { empID: String; password: String };
   createRequestState: { justification: String; amount: String };
+  currentUser: {
+    firstName: string;
+    lastName: string;
+    empID: string;
+    password: string;
+  }
 }
 
 const initialState: SalamanderState = {
   requestsState: [],
   loginState: { empID: "", password: "" },
   createRequestState: { justification: "", amount: "0" },
+  currentUser: {
+    firstName: "",
+    lastName: "",
+    empID: "",
+    password: ""
+  }
 };
 
 export const salamanderSlice = createSlice({
@@ -50,6 +62,11 @@ export const salamanderSlice = createSlice({
       state.loginState.empID = "";
       state.loginState.password = "";
     },
+    setCurrentUser: (state, action) => {
+      console.log("action", action);
+      // state.currentUser = {...state.currentUser, }
+      
+    }
   },
 });
 

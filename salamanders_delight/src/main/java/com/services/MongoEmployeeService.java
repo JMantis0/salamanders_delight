@@ -60,4 +60,10 @@ public class MongoEmployeeService implements MongoService{
         }
         return passwordIsValid;
     }
+
+    public Employee getEmployeeByEmpID(String empID) {
+        System.out.println("Inside service getEmployeeByEmpID("+empID+")");
+        Employee emp = dao.getEmployeeByEmpID(empID)
+        return emp;
+    }
 }

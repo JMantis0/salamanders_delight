@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.stream.Collectors;
 
-public class CreateReimbursementServlet extends HttpServlet {
+public class GetCurrentUserServlet extends HttpServlet {
     private MongoConnector connector;
     private Dao dao;
     private MongoReimbursementService service;
@@ -40,18 +40,15 @@ public class CreateReimbursementServlet extends HttpServlet {
         controller = new ReactController(service);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        System.out.println("Inside doPost CreateReimbursementServlet");
-        bodyReader = req.getReader();
-        bodyString = bodyReader.lines().collect(Collectors.joining());
+    public void doGet (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("Inside GetCurrentUserServlet");
+        String empID = req.getParameter("empID");
+        Employee = controller.getEmployeeByEmpID(empID);
         mapper = new ObjectMapper();
-        newRequest = mapper.readValue(bodyString, ReimbursementRequest.class);
-        controller.createRequest(newRequest);
-        System.out.println("Is there a new request?");
-        res.setStatus(201);
-//        Send response, not sure what method
-
-
+        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
+        res.setStatus(200);
+        res.send(json);
     }
+
+
 }

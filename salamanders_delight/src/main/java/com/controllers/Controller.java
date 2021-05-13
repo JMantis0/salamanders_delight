@@ -6,4 +6,5 @@ import javafx.util.Pair;
 public interface Controller {
     Pair<String, Integer> loginAttemptAndGetNextURL(String empID, String password);
     void createRequest(ReimbursementRequest request);
+    Employee getEmployeeByEmpID(String empID);
 }

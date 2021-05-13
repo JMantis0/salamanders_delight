@@ -117,4 +117,11 @@ public class MongoDao implements Dao {
     public void setReimbursementRequests(MongoCollection<ReimbursementRequest> reimbursementRequests) {
         this.requests = reimbursementRequests;
     }
+
+    @Override
+    public Employee getEmployeeByEmpID(String empID) {
+        System.out.println("Inside dao getEmployeeByEmpID("+empID+")");
+        Employee emp = employees.find(eq("empID", empID)).first().orElse(null);
+        return emp;
+    }
 }

@@ -21,11 +21,6 @@ const Login = () => {
   const salamander = useAppSelector(selectSalamander);
   const dispatch = useAppDispatch();
   const history = useHistory();
-
-
-  
-
-
   const formChangeHandler = (event: { target: { name: any; value: any; }; }) => {
     const fieldName = event.target.name;
     const value = event.target.value;
@@ -41,8 +36,6 @@ const Login = () => {
       })
       .then((response) => {
         const nextURL = response.data;
-        // Should we set some kind of state for the currently logged in user?
-        console.log(salamander.loginState);
         history.push(nextURL);
       })
       .catch((err) => {

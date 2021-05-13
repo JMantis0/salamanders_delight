@@ -65,4 +65,11 @@ public class ReactController implements Controller {
         System.out.println("Inside Controller createRequest");
         ((MongoReimbursementService)service).createRequest(request);
     }
+
+    @Override
+    public Employee getEmployeeByEmpID(String empID) {
+        System.out.println("Inside controller getEmployeeByEmpID("+empID+")");
+        Employee emp = service.getEmployeeByEmpID(empID)
+        return emp;
+    }
 }
