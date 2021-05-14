@@ -4,7 +4,7 @@ import { useAppSelector } from "../../redux/hooks";
 
 const PageGreeting = () => {
   const salamander = useAppSelector(selectSalamander);
-  return <h1>Welcome, {salamander.loginState.empID}.</h1>;
+  return <h1>Welcome, {salamander.currentUser.firstName}.</h1>;
 };
 
 export default PageGreeting;

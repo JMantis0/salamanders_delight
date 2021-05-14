@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import LogoutButton from "../components/LogoutButton/LogoutButton";
 import CreateRequestForm from "../components/CreateRequestForm/CreateRequestForm";
 import ReimbursementTable from "../components/ReimbursementTable/ReimbursementTable";

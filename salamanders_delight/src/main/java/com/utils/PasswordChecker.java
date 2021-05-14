@@ -8,10 +8,12 @@ package com.utils;
 public class PasswordChecker {
     private String empID;
     private String password;
+    private String loginType;
 
-    public PasswordChecker(String empID, String password) {
+    public PasswordChecker(String empID, String password, String loginType) {
         this.empID = empID;
         this.password = password;
+        this.loginType = loginType;
     }
 
     public PasswordChecker() {
@@ -31,6 +33,14 @@ public class PasswordChecker {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
     }
 
     @Override

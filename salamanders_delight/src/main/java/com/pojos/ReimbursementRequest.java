@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 public class ReimbursementRequest {
     private double amount;
     private boolean resolved;
+    private String resolvedBy;
     private String requesterID;
     private String justification;
     private ObjectId id;
@@ -15,6 +16,7 @@ public class ReimbursementRequest {
         this.justification = justification;
         this.resolved = false;
     }
+
 
     public ReimbursementRequest() {
     }
@@ -33,6 +35,14 @@ public class ReimbursementRequest {
 
     public void setResolved(boolean resolved) {
         this.resolved = resolved;
+    }
+
+    public String getResolvedBy() {
+        return resolvedBy;
+    }
+
+    public void setResolvedBy(String resolvedBy) {
+        this.resolvedBy = resolvedBy;
     }
 
     public String getRequesterID() {

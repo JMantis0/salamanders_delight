@@ -58,12 +58,6 @@ public class ReimbursementServlet extends HttpServlet {
         }
         mapper = new ObjectMapper();
         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
-        try {
-            System.out.println(json);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
         res.setStatus(200);
         PrintWriter resWriter = res.getWriter();
         resWriter.print(json);

@@ -33,4 +33,20 @@
         <servlet-name>CreateRequestServlet</servlet-name>
         <url-pattern>/api/create_new_request</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>GetCurrentUserServlet</servlet-name>
+        <servlet-class>com.servlets.GetCurrentUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCurrentUserServlet</servlet-name>
+        <url-pattern>/api/current_user/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateOneEmpFieldServlet</servlet-name>
+        <servlet-class>com.servlets.UpdateEmpProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateOneEmpFieldServlet</servlet-name>
+        <url-pattern>/api/update_emp_field/*</url-pattern>
+    </servlet-mapping>
 </web-app>

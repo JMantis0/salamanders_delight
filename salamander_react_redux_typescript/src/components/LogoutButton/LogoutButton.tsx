@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import{ resetLoginFormData, resetEmployeeRequests } from "../../redux/salamanderSlice";
+import{ resetLoginFormData, resetEmployeeRequests, resetCurrentUser } from "../../redux/salamanderSlice";
 import { useAppDispatch } from "../../redux/hooks";
 
 const LogoutButton = () => {
@@ -11,6 +11,7 @@ const LogoutButton = () => {
      //  Reset currently logged in user State
      dispatch(resetLoginFormData());
      dispatch(resetEmployeeRequests());
+     dispatch(resetCurrentUser());
     history.push("/");
   };
   return (

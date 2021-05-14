@@ -1,34 +1,43 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "./store";
+import {
+  // createAsyncThunk,
+  createSlice,
+  //  PayloadAction
+} from "@reduxjs/toolkit";
+import {
+  RootState,
+  //  AppThunk
+} from "./store";
 
 export interface SalamanderState {
   requestsState: Array<{
-    amount: number;
+    amount: number | null;
     justification: string | null;
     requesterID: string;
     resolved: boolean;
     id: { timestamp: number; date: number };
   }>;
-  loginState: { empID: String; password: String };
-  createRequestState: { justification: String; amount: String };
+  loginState: { empID: string; password: string; loginType: String };
+  createRequestState: { justification: string; amount: string | number | null };
   currentUser: {
     firstName: string;
     lastName: string;
     empID: string;
     password: string;
-  }
+    id: { timestamp: number | null; date: number | null };
+  };
 }
 
 const initialState: SalamanderState = {
   requestsState: [],
-  loginState: { empID: "", password: "" },
-  createRequestState: { justification: "", amount: "0" },
+  loginState: { empID: "", password: "", loginType: "" },
+  createRequestState: { justification: "", amount: "" },
   currentUser: {
     firstName: "",
     lastName: "",
     empID: "",
-    password: ""
-  }
+    password: "",
+    id: { timestamp: null, date: null },
+  },
 };
 
 export const salamanderSlice = createSlice({
@@ -61,12 +70,22 @@ export const salamanderSlice = createSlice({
     resetLoginFormData: (state) => {
       state.loginState.empID = "";
       state.loginState.password = "";
+      state.loginState.loginType = "";
     },
     setCurrentUser: (state, action) => {
       console.log("action", action);
-      // state.currentUser = {...state.currentUser, }
-      
-    }
+      console.log("action.payload", action.payload);
+      state.currentUser = { ...state.currentUser, ...action.payload };
+    },
+    resetCurrentUser: (state) => {
+      state.currentUser = {
+        firstName: "",
+        lastName: "",
+        empID: "",
+        password: "",
+        id: { timestamp: null, date: null },
+      };
+    },
   },
 });
 
@@ -76,6 +95,8 @@ export const {
   setRequestFormState,
   setLoginFormState,
   resetLoginFormData,
+  setCurrentUser,
+  resetCurrentUser,
 } = salamanderSlice.actions;
 
 export const selectSalamander = (state: RootState) => state.salamander;

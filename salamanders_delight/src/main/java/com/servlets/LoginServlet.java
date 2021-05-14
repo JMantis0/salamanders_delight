@@ -1,11 +1,11 @@
 package com.servlets;
 
+import com.services.MongoUserService;
 import com.utils.MongoConnector;
 import com.controllers.Controller;
 import com.controllers.ReactController;
 import com.daos.Dao;
 import com.daos.MongoDao;
-import com.services.MongoEmployeeService;
 import com.services.MongoService;
 import com.utils.PasswordChecker;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class LoginServlet extends HttpServlet {
     private MongoConnector connector;
     private Dao dao;
-    private MongoEmployeeService service;
+    private MongoService service;
     private Controller controller;
     private ObjectMapper mapper;
     private BufferedReader bodyReader;
@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
         connector = new MongoConnector();
         connector.configureCodecAndRegistryAndCreateClient();
         dao = new MongoDao(connector);
-        service = new MongoEmployeeService(dao);
+        service = new MongoUserService(dao);
         controller = new ReactController(service);
     }
     /**
@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
         mapper = new ObjectMapper();
         passwordChecker = mapper.readValue(bodyString, PasswordChecker.class);
         //  Use PasswordChecker object's field values to call the controller and set the response status/nexturl
-        nextURLandStatus = controller.loginAttemptAndGetNextURL(passwordChecker.getEmpID(), passwordChecker.getPassword());
+        nextURLandStatus =  controller.loginAttemptAndGetNextURL(passwordChecker.getEmpID(), passwordChecker.getPassword(), passwordChecker.getLoginType());
         nextURL = nextURLandStatus.getKey();
         responseStatus = nextURLandStatus.getValue();
         //  Configure the response object and set the response status

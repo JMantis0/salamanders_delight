@@ -1,5 +1,6 @@
 package com.daos;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
@@ -10,7 +11,6 @@ import com.mongodb.client.MongoCollection;
 import java.util.Iterator;
 
 import static com.mongodb.client.model.Filters.eq;
-
 
 /**
  * <h1>MongoDao</h1>
@@ -63,6 +63,22 @@ public class MongoDao implements Dao {
         return correctPassword;
     }
 
+    @Override
+    public String getManagerPasswordByManagerID(String managerID) {
+        System.out.println("Inside MongoDao getManagerPasswordByManagerID(" + managerID + ").");
+        String correctPassword;
+        try {
+            correctPassword = managers.find(eq("managerID", managerID)).first().getPassword();
+            System.out.println(correctPassword);
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("No such user exists");
+            correctPassword = null;
+        }
+        System.out.println("returning password");
+        return correctPassword;
+    }
+
     /**
      * Queries the DB for an employee with empID field matching the empID String parameter and
      * returns the employee, if it exists.  Otherwise, null is returned.
@@ -76,6 +92,14 @@ public class MongoDao implements Dao {
         return emp;
     }
 
+    @Override
+    public Manager getManagerByManagerID(String managerID) {
+        System.out.println("Inside MongoDao getEmployee(" + managerID + ").");
+        Manager mgr= managers.find(eq("managerID", managerID)).first();
+        return mgr;
+    }
+
+
     /**
      * Queries the DB for all reimbursement requests with requesterID field matching the empID String parameter
      * and returns the collection.
@@ -86,14 +110,8 @@ public class MongoDao implements Dao {
     public FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID) {
         System.out.println("Inside MongoDao getAllRequestsByEmpID");
         try{
-
-        FindIterable<ReimbursementRequest> allRequests = requests.find(eq("requesterID", empID));
-            Iterator<ReimbursementRequest> iter = allRequests.iterator();
-            while(iter.hasNext()) {
-                System.out.println(iter.next());
-            }
-            System.out.println(allRequests);
-        return allRequests;
+            FindIterable<ReimbursementRequest> allRequests = requests.find(eq("requesterID", empID));
+            return allRequests;
         } catch(Exception e) {
             e.printStackTrace();
             return null;
@@ -119,9 +137,17 @@ public class MongoDao implements Dao {
     }
 
     @Override
-    public Employee getEmployeeByEmpID(String empID) {
-        System.out.println("Inside dao getEmployeeByEmpID("+empID+")");
-        Employee emp = employees.find(eq("empID", empID)).first().orElse(null);
-        return emp;
+    public void updateOneEmployeeField(String empID, String field, String value) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("empID", empID); // (1)
+
+        BasicDBObject newDocument = new BasicDBObject();
+        newDocument.put(field, value); // (2)
+
+        BasicDBObject updateObject = new BasicDBObject();
+        updateObject.put("$set", newDocument); // (3)
+
+        employees.updateOne(query, updateObject); // (4)
+        System.out.println(3);
     }
 }

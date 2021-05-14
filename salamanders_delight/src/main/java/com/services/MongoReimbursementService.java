@@ -25,7 +25,7 @@ public class MongoReimbursementService implements MongoService {
      * @return
      */
     public FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID) {
-        System.out.println("Inside MongoReimbursementService getAllRequestsByEmpID ONE");
+        System.out.println("Inside MongoReimbursementService getAllRequestsByEmpID");
         FindIterable<ReimbursementRequest> allRequests = dao.getAllRequestsByEmpID(empID);
         //  Maybe here I would like to manipulate the data structure before giving it to the controller.
 

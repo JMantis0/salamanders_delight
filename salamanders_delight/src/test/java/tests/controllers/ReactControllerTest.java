@@ -4,6 +4,7 @@ import com.controllers.Controller;
 import com.controllers.ReactController;
 import com.services.MongoEmployeeService;
 import com.services.MongoService;
+import com.services.MongoUserService;
 import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import org.mockito.Mockito;
 public class ReactControllerTest {
 
     private Controller controller;
-    private MongoEmployeeService mockService;
+    private MongoUserService mockService;
 
     @Before
     public void initTestDependencies() {
@@ -28,14 +29,14 @@ public class ReactControllerTest {
         Mockito.when(mockService.doesUserExist("ExistingUser")).thenReturn(true);
         Mockito.when(mockService.isPasswordValid("ExistingUser", "VALID PASSWORD")).thenReturn(true);
         Pair<String, Integer> expected = new Pair<>("/employee_home", 200);
-        Assert.assertEquals(expected, controller.loginAttemptAndGetNextURL("ExistingUser", "VALID PASSWORD"));
+        Assert.assertEquals(expected, controller.loginAttemptAndGetNextURL("ExistingUser", "VALID PASSWORD", "employee"));
     }
 
     @Test
     public void loginAttemptAndGetNextURL_shouldReturnPairWithNoSuchUserURLandUnauthorizedStatus() {
         Mockito.when(mockService.doesUserExist("NonExistingUser")).thenReturn(false);
         Pair<String, Integer> expected = new Pair<>("/no_such_user", 401);
-        Assert.assertEquals(expected, controller.loginAttemptAndGetNextURL("NonExistingUser", "irrelevant_password"));
+        Assert.assertEquals(expected, controller.loginAttemptAndGetNextURL("NonExistingUser", "irrelevant_password", "employee"));
     }
 
     @Test
@@ -43,6 +44,6 @@ public class ReactControllerTest {
         Mockito.when(mockService.doesUserExist("ExistingUser")).thenReturn(true);
         Mockito.when(mockService.isPasswordValid("ExistingUser", "WRONG PASSWORD")).thenReturn(false);
         Pair<String, Integer> expected = new Pair<>("/invalid_password", 401);
-        Assert.assertEquals(expected, controller.loginAttemptAndGetNextURL("ExistingUser", "WRONG PASSWORD"));
+        Assert.assertEquals(expected, controller.loginAttemptAndGetNextURL("ExistingUser", "WRONG PASSWORD", "employee"));
     }
 }

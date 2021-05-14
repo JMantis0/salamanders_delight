@@ -7,7 +7,9 @@ import com.daos.MongoDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pojos.ReimbursementRequest;
 import com.services.MongoReimbursementService;
+import com.services.MongoUserService;
 import com.utils.MongoConnector;
+import com.pojos.Employee;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 public class GetCurrentUserServlet extends HttpServlet {
     private MongoConnector connector;
     private Dao dao;
-    private MongoReimbursementService service;
+    private MongoUserService service;
     private Controller controller;
     private ObjectMapper mapper;
     private BufferedReader bodyReader;
@@ -36,18 +38,19 @@ public class GetCurrentUserServlet extends HttpServlet {
         connector = new MongoConnector();
         connector.configureCodecAndRegistryAndCreateClient();
         dao = new MongoDao(connector);
-        service = new MongoReimbursementService(dao);
+        service = new MongoUserService(dao);
         controller = new ReactController(service);
     }
 
-    public void doGet (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet (HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("Inside GetCurrentUserServlet");
         String empID = req.getParameter("empID");
-        Employee = controller.getEmployeeByEmpID(empID);
+        Employee emp = controller.getCurrentUserProfile(empID);
+        System.out.println("GetCurrentUserServlet emp = " + emp);
         mapper = new ObjectMapper();
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
+        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(emp);
         res.setStatus(200);
-        res.send(json);
+        res.getWriter().print(json);
     }
 
 

@@ -11,22 +11,22 @@ public class Employee {
   private String lastName;
   private String empID;
   private String password;
-  private boolean isManager;
-  private ObjectId _id; // For Mongo
+  private ObjectId id; // For Mongo
 
   //Constructors
   public Employee() {
   }
 
-  public Employee(String firstName, String lastName, String empID, String password, ObjectId _id) {
+  public Employee(String firstName, String lastName, String empID, String password, ObjectId id) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.empID = empID;
     this.password = password;
-    this._id = _id;
+    this.id = id;
   }
 
   //  S/G etters
+
   public String getFirstName() {
     return firstName;
   }
@@ -59,20 +59,12 @@ public class Employee {
     this.password = password;
   }
 
-  public boolean isManager() {
-    return isManager;
+  public ObjectId getId() {
+    return id;
   }
 
-  public void setManager(boolean manager) {
-    isManager = manager;
-  }
-
-  public ObjectId get_id() {
-    return _id;
-  }
-
-  public void set_id(ObjectId _id) {
-    this._id = _id;
+  public void setId(ObjectId id) {
+    this.id = id;
   }
 
   @Override
@@ -82,8 +74,7 @@ public class Employee {
             ", lastName='" + lastName + '\'' +
             ", empID='" + empID + '\'' +
             ", password='" + password + '\'' +
-            ", isManager=" + isManager +
-            ", _id=" + _id +
+            ", id=" + id +
             '}';
   }
 }

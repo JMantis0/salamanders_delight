@@ -27,9 +27,6 @@ public class CreateReimbursementServlet extends HttpServlet {
     private BufferedReader bodyReader;
     private String bodyString;
     private ReimbursementRequest newRequest;
-    private int responseStatus;
-    private String nextURL;
-    private PrintWriter responseWriter;
 
     @Override
     public void init() throws ServletException {
