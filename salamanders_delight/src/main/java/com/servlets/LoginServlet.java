@@ -65,7 +65,6 @@ public class LoginServlet extends HttpServlet {
         //  Get data from the request object to create a PasswordChecker object
         bodyReader = req.getReader();
         bodyString = bodyReader.lines().collect(Collectors.joining());
-//        System.out.println(bodyString);
         mapper = new ObjectMapper();
         System.out.println(bodyString);
         try {

@@ -65,7 +65,7 @@ const EmployeeInfoViewer = () => {
         <Table className={styles.table} aria-label="reimbursement table">
           <TableHead>
             <TableRow>
-              <TableCell>Employee ID</TableCell>
+              <TableCell>User ID</TableCell>
               <TableCell align="right">
                 Last Name
                 <button name="lastName" onClick={updateHandler}>

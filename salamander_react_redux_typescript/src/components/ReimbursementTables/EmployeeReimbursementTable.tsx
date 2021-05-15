@@ -44,7 +44,7 @@ const EmployeeReimbursementTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {salamander.requestsState.map((request) => (
+            {salamander.employeeRequestsState.map((request) => (
               <TableRow key={request.id.timestamp}>
                 <TableCell component="th" scope="row">
                   {request.justification}

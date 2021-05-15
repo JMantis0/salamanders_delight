@@ -28,12 +28,12 @@ public class Manager {
         this.lastName = lastName;
     }
 
-    public String getManagerID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setManagerID(String managerID) {
-        this.userID = managerID;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getPassword() {

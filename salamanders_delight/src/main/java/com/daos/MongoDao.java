@@ -70,7 +70,7 @@ public class MongoDao implements Dao {
         System.out.println("Inside MongoDao getManagerPasswordByManagerID(" + managerID + ").");
         String correctPassword;
         try {
-            correctPassword = managers.find(eq("managerID", managerID)).first().getPassword();
+            correctPassword = managers.find(eq("userID", managerID)).first().getPassword();
             System.out.println(correctPassword);
         } catch(Exception e) {
             e.printStackTrace();
@@ -96,8 +96,8 @@ public class MongoDao implements Dao {
 
     @Override
     public Manager getManagerByManagerID(String managerID) {
-        System.out.println("Inside MongoDao getEmployee(" + managerID + ").");
-        Manager mgr= managers.find(eq("managerID", managerID)).first();
+        System.out.println("Inside MongoDao getManager(" + managerID + ").");
+        Manager mgr= managers.find(eq("userID", managerID)).first();
         return mgr;
     }
 
