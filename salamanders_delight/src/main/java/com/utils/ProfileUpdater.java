@@ -3,19 +3,19 @@ package com.utils;
 import org.bson.types.ObjectId;
 
 public class ProfileUpdater {
-    private String empID;
+    private String userID;
     private String field;
     private String value;
 
     public ProfileUpdater() {
     }
 
-    public String getEmpID() {
-        return empID;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setEmpID(String empID) {
-        this.empID = empID;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getField() {

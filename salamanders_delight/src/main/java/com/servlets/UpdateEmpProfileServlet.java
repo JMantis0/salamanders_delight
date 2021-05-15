@@ -41,9 +41,10 @@ public class UpdateEmpProfileServlet extends HttpServlet {
         //get body
         bodyReader = req.getReader();
         bodyString = bodyReader.lines().collect(Collectors.joining());
+        System.out.println("bodyString: " + bodyString);
         mapper = new ObjectMapper();
         profileUpdate = mapper.readValue(bodyString, ProfileUpdater.class);
-        controller.updateOneEmployeeField(profileUpdate.getEmpID(), profileUpdate.getField(), profileUpdate.getValue());
+        controller.updateOneEmployeeField(profileUpdate.getUserID(), profileUpdate.getField(), profileUpdate.getValue());
 
     }
 

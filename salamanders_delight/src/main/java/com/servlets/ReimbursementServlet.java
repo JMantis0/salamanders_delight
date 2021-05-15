@@ -7,7 +7,6 @@ import com.daos.MongoDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.pojos.ReimbursementRequest;
-import com.services.MongoEmployeeService;
 import com.services.MongoReimbursementService;
 import com.utils.MongoConnector;
 import com.utils.PasswordChecker;
@@ -50,7 +49,7 @@ public class ReimbursementServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("Inside ReimbursementServlet doGet");
         //Get the empID param from the request url.
-        String empID = req.getParameter("empID");
+        String empID = req.getParameter("userID");
         FindIterable<ReimbursementRequest> allRequests = service.getAllRequestsByEmpID(empID);
         List<ReimbursementRequest> list = new ArrayList<>();
         for(ReimbursementRequest request: allRequests) {

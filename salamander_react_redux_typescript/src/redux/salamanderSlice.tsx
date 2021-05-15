@@ -16,12 +16,12 @@ export interface SalamanderState {
     resolved: boolean;
     id: { timestamp: number; date: number };
   }>;
-  loginState: { empID: string; password: string; loginType: String };
+  loginState: { userID: string; password: string; loginType: String };
   createRequestState: { justification: string; amount: string | number | null };
   currentUser: {
     firstName: string;
     lastName: string;
-    empID: string;
+    userID: string;
     password: string;
     id: { timestamp: number | null; date: number | null };
   };
@@ -29,12 +29,12 @@ export interface SalamanderState {
 
 const initialState: SalamanderState = {
   requestsState: [],
-  loginState: { empID: "", password: "", loginType: "" },
+  loginState: { userID: "", password: "", loginType: "" },
   createRequestState: { justification: "", amount: "" },
   currentUser: {
     firstName: "",
     lastName: "",
-    empID: "",
+    userID: "",
     password: "",
     id: { timestamp: null, date: null },
   },
@@ -68,7 +68,7 @@ export const salamanderSlice = createSlice({
       state.loginState = { ...state.loginState, [fieldName]: value };
     },
     resetLoginFormData: (state) => {
-      state.loginState.empID = "";
+      state.loginState.userID = "";
       state.loginState.password = "";
       state.loginState.loginType = "";
     },
@@ -81,7 +81,7 @@ export const salamanderSlice = createSlice({
       state.currentUser = {
         firstName: "",
         lastName: "",
-        empID: "",
+        userID: "",
         password: "",
         id: { timestamp: null, date: null },
       };

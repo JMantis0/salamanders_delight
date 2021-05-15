@@ -5,7 +5,7 @@ import org.bson.types.ObjectId;
 public class Manager {
     private String firstName;
     private String lastName;
-    private String managerID;
+    private String userID;
     private String password;
     private ObjectId id; // For Mongo
 
@@ -29,11 +29,11 @@ public class Manager {
     }
 
     public String getManagerID() {
-        return managerID;
+        return userID;
     }
 
     public void setManagerID(String managerID) {
-        this.managerID = managerID;
+        this.userID = managerID;
     }
 
     public String getPassword() {
@@ -57,7 +57,7 @@ public class Manager {
         return "Manager{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", managerID='" + managerID + '\'' +
+                ", managerID='" + userID + '\'' +
                 ", password='" + password + '\'' +
                 ", id=" + id +
                 '}';

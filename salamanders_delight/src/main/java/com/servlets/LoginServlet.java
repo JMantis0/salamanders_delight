@@ -65,10 +65,17 @@ public class LoginServlet extends HttpServlet {
         //  Get data from the request object to create a PasswordChecker object
         bodyReader = req.getReader();
         bodyString = bodyReader.lines().collect(Collectors.joining());
+//        System.out.println(bodyString);
         mapper = new ObjectMapper();
+        System.out.println(bodyString);
+        try {
         passwordChecker = mapper.readValue(bodyString, PasswordChecker.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(passwordChecker.toString());
         //  Use PasswordChecker object's field values to call the controller and set the response status/nexturl
-        nextURLandStatus =  controller.loginAttemptAndGetNextURL(passwordChecker.getEmpID(), passwordChecker.getPassword(), passwordChecker.getLoginType());
+        nextURLandStatus =  controller.loginAttemptAndGetNextURL(passwordChecker.getUserID(), passwordChecker.getPassword(), passwordChecker.getLoginType());
         nextURL = nextURLandStatus.getKey();
         responseStatus = nextURLandStatus.getValue();
         //  Configure the response object and set the response status

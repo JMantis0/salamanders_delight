@@ -18,7 +18,7 @@ const EmployeeInfoViewer = () => {
 
   const getCurrentUserAndSetCurrentUserState = () => {
     axios
-      .get(`/api/current_user?empID=${salamander.loginState.empID}`)
+      .get(`/api/current_user?userID=${salamander.loginState.userID}&loginType=${salamander.loginState.loginType}`)
       .then((response) => {
         console.log("response", response);
         const userProfile = response.data;
@@ -38,7 +38,7 @@ const EmployeeInfoViewer = () => {
     const newValue = prompt(`Submit a new ${event.target.name}`);
     if (newValue) {
       const data = {
-        empID: salamander.currentUser.empID,
+        userID: salamander.currentUser.userID,
         field: event.target.name,
         value: newValue,
       };
@@ -89,7 +89,7 @@ const EmployeeInfoViewer = () => {
           <TableBody>
             <TableRow>
               <TableCell component="th" scope="row">
-                {salamander.currentUser.empID}
+                {salamander.currentUser.userID}
               </TableCell>
               <TableCell align="right">
                 {salamander.currentUser.lastName}

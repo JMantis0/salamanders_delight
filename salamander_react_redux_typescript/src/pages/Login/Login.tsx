@@ -65,9 +65,9 @@ const Login = () => {
       <TextField
         autoComplete="off"
         type="text"
-        label="Employee ID"
+        label="User ID"
         variant="outlined"
-        name="empID"
+        name="userID"
         onChange={formChangeHandler}
       />
       <TextField

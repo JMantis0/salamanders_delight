@@ -35,7 +35,7 @@ const CreateRequestForm = () => {
 
   const getAllReimbursementRequestsForCurrentUser = () => {
     axios
-      .get(`/api/get_requests?empID=${salamander.loginState.empID}`)
+      .get(`/api/get_requests?userID=${salamander.loginState.userID}`)
       .then((response) => {
         console.log("response.data", response.data);
         dispatch(updateAllRequests(response.data));
@@ -50,7 +50,7 @@ const CreateRequestForm = () => {
     console.log("salamander.loginState", salamander.loginState)
     console.log("calling /create_new_request with data: ", salamander.createRequestState);
     const postData = {
-      requesterID: salamander.loginState.empID,
+      requesterID: salamander.loginState.userID,
       justification: salamander.createRequestState.justification,
       amount: salamander.createRequestState.amount
     }

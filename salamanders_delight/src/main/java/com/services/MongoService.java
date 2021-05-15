@@ -1,5 +1,7 @@
 package com.services;
 
+import com.pojos.Employee;
+
 /**
  *<h1>Interface MongoService</h1>
  * <h2>implemented by Service(s) that intermediate bewteen Dao and Controller</h2>

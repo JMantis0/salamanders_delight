@@ -6,25 +6,23 @@ package com.utils;
  */
 
 public class PasswordChecker {
-    private String empID;
+    private String userID;
     private String password;
     private String loginType;
 
-    public PasswordChecker(String empID, String password, String loginType) {
-        this.empID = empID;
+    public PasswordChecker(){}
+    public PasswordChecker(String userID, String password, String loginType) {
+        this.userID = userID;
         this.password = password;
         this.loginType = loginType;
     }
 
-    public PasswordChecker() {
+    public String getUserID() {
+        return userID;
     }
 
-    public String getEmpID() {
-        return empID;
-    }
-
-    public void setEmpID(String empID) {
-        this.empID = empID;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getPassword() {
@@ -46,8 +44,9 @@ public class PasswordChecker {
     @Override
     public String toString() {
         return "PasswordChecker{" +
-                "empID='" + empID + '\'' +
+                "userID='" + userID + '\'' +
                 ", password='" + password + '\'' +
+                ", loginType='" + loginType + '\'' +
                 '}';
     }
 }

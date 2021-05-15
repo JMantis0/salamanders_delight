@@ -1,10 +1,8 @@
 package com.services;
 
 import com.daos.Dao;
-import com.mongodb.client.FindIterable;
 import com.pojos.Employee;
 import com.pojos.Manager;
-import com.pojos.ReimbursementRequest;
 
 public class MongoUserService implements MongoService{
     private Dao dao;
@@ -28,7 +26,7 @@ public class MongoUserService implements MongoService{
     public boolean doesEmployeeExist(String empID) {
         System.out.println("doesEmployeeExist(" + empID + ")");
         boolean userExists = false;
-        Employee emp = dao.getEmployeeByEmpID(empID);
+        Employee emp = dao.getEmployeeByUserID(empID);
         if(emp != null) {
             userExists = true;
         }
@@ -47,7 +45,7 @@ public class MongoUserService implements MongoService{
     public boolean isEmployeePasswordValid(String empID, String passwordAttempt) {
         System.out.println(" isEmployeePasswordValid(" + empID + ", " + passwordAttempt + ")");
         boolean passwordIsValid = false;
-        String correctPassword = dao.getEmployeePasswordByEmpID(empID);
+        String correctPassword = dao.getEmployeePasswordByUserID(empID);
         if(passwordAttempt.equals(correctPassword)) {
             passwordIsValid = true;
         }
@@ -56,7 +54,12 @@ public class MongoUserService implements MongoService{
 
     public Employee getEmployeeByEmpID(String empID) {
         System.out.println("Inside service getEmployeeByEmpID("+empID+")");
-        return dao.getEmployeeByEmpID(empID);
+        return dao.getEmployeeByUserID(empID);
+    }
+
+    public Manager getManagerByManagerID(String manID) {
+        System.out.println("Inside service getManagerByManagerID("+manID+")");
+        return dao.getManagerByManagerID(manID);
     }
 
     public void updateOneEmployeeField(String empID, String field, String value) {

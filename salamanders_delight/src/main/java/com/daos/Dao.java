@@ -10,9 +10,9 @@ import com.utils.MongoConnector;
 
 public interface Dao {
     //Model the db
-    String getEmployeePasswordByEmpID(String empID);
-    Employee getEmployeeByEmpID(String empID);
-    FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID);
+    String getEmployeePasswordByUserID(String empID);
+    Employee getEmployeeByUserID(String empID);
+    FindIterable<ReimbursementRequest> getAllRequestsByUserID(String empID);
     void createRequest(ReimbursementRequest request);
     void updateOneEmployeeField(String empID, String field, String value);
     Manager getManagerByManagerID(String managerID);

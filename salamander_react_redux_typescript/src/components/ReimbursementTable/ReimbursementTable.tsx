@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -17,7 +18,7 @@ const ReimbursementTable = () => {
   
   const getAllReimbursementRequestsForCurrentUser = () => {
     axios
-      .get(`/api/get_requests?empID=${salamander.loginState.empID}`)
+      .get(`/api/get_requests?userID=${salamander.loginState.userID}`)
       .then((response) => {
         console.log("response.data", response.data);
         dispatch(updateAllRequests(response.data));
@@ -27,9 +28,9 @@ const ReimbursementTable = () => {
       });
   };
   
-  // useMemo(() => {
+  useMemo(() => {
     getAllReimbursementRequestsForCurrentUser();
-  // }, []);
+  }, []);
 
   return (
     <React.Fragment>     

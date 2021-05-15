@@ -2,6 +2,7 @@ package com.controllers;
 ;
 import com.daos.MongoDao;
 import com.mongodb.client.FindIterable;
+import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
 import com.services.*;
 import com.utils.MongoConnector;
@@ -108,10 +109,17 @@ public class ReactController implements Controller {
     }
 
     @Override
-    public Employee getCurrentUserProfile(String empID) {
+    public Employee getCurrentEmployeeProfile(String empID) {
         System.out.println("Inside controller getCurrentUserProfile"+empID+")");
         Employee emp = ((MongoUserService)service).getEmployeeByEmpID(empID);
         return emp;
+    }
+
+    @Override
+    public Manager getCurrentManagerProfile(String manID) {
+        System.out.println("Inside controller getCurrentUserProfile"+manID+")");
+        Manager manager = ((MongoUserService)service).getManagerByManagerID(manID);
+        return manager;
     }
 
     @Override

@@ -43,18 +43,18 @@ public class MongoDao implements Dao {
     }
 
     /**
-     * Queries the MongoDB for an employee with empID field matching the empID String parameter, and gets its password.
+     * Queries the MongoDB for an employee with userID field matching the userID String parameter, and gets its password.
      * If no such employee exists, null is returned.
-     * @param empID used to query the MongoDB employee collection.
+     * @param userID used to query the MongoDB employee collection.
      * @return correctPassword - A string that contains the password value stored in the employee record, or null
      * if there is no such employee.
      */
     @Override
-    public String getEmployeePasswordByEmpID(String empID) {
-        System.out.println("Inside MongoDao getEmployeePassword(" + empID + ").");
+    public String getEmployeePasswordByUserID(String userID) {
+        System.out.println("Inside MongoDao getEmployeePassword(" + userID + ").");
         String correctPassword;
         try {
-            correctPassword = employees.find(eq("empID", empID)).first().getPassword();
+            correctPassword = employees.find(eq("userID", userID)).first().getPassword();
         } catch(NullPointerException e) {
             e.printStackTrace();
             System.out.println("No such user exists");
@@ -80,15 +80,15 @@ public class MongoDao implements Dao {
     }
 
     /**
-     * Queries the DB for an employee with empID field matching the empID String parameter and
+     * Queries the DB for an employee with userID field matching the userID String parameter and
      * returns the employee, if it exists.  Otherwise, null is returned.
-     * @param empID used to query the MongoDB employee collection.
+     * @param userID used to query the MongoDB employee collection.
      * @return an Employee object, or null.
      */
     @Override
-    public Employee getEmployeeByEmpID(String empID) {
-        System.out.println("Inside MongoDao getEmployee(" + empID + ").");
-        Employee emp = employees.find(eq("empID", empID)).first();
+    public Employee getEmployeeByUserID(String userID) {
+        System.out.println("Inside MongoDao getEmployee(" + userID + ").");
+        Employee emp = employees.find(eq("userID", userID)).first();
         return emp;
     }
 
@@ -101,16 +101,16 @@ public class MongoDao implements Dao {
 
 
     /**
-     * Queries the DB for all reimbursement requests with requesterID field matching the empID String parameter
+     * Queries the DB for all reimbursement requests with requesterID field matching the userID String parameter
      * and returns the collection.
-     * @param empID used to query the MongoDB employee collection.
+     * @param userID used to query the MongoDB employee collection.
      * @return a FindIterable{@code <ReimbursementRequest>}
      */
     @Override
-    public FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID) {
-        System.out.println("Inside MongoDao getAllRequestsByEmpID");
+    public FindIterable<ReimbursementRequest> getAllRequestsByUserID(String userID) {
+        System.out.println("Inside MongoDao getAllRequestsByuserID");
         try{
-            FindIterable<ReimbursementRequest> allRequests = requests.find(eq("requesterID", empID));
+            FindIterable<ReimbursementRequest> allRequests = requests.find(eq("requesterID", userID));
             return allRequests;
         } catch(Exception e) {
             e.printStackTrace();
@@ -137,9 +137,9 @@ public class MongoDao implements Dao {
     }
 
     @Override
-    public void updateOneEmployeeField(String empID, String field, String value) {
+    public void updateOneEmployeeField(String userID, String field, String value) {
         BasicDBObject query = new BasicDBObject();
-        query.put("empID", empID); // (1)
+        query.put("userID", userID); // (1)
 
         BasicDBObject newDocument = new BasicDBObject();
         newDocument.put(field, value); // (2)

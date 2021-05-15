@@ -5,6 +5,7 @@ import com.controllers.ReactController;
 import com.daos.Dao;
 import com.daos.MongoDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
 import com.services.MongoReimbursementService;
 import com.services.MongoUserService;
@@ -44,14 +45,26 @@ public class GetCurrentUserServlet extends HttpServlet {
 
     public void doGet (HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("Inside GetCurrentUserServlet");
-        String empID = req.getParameter("empID");
-        Employee emp = controller.getCurrentUserProfile(empID);
-        System.out.println("GetCurrentUserServlet emp = " + emp);
+        String userID = req.getParameter("userID");
+        String loginType = req.getParameter("loginType");
         mapper = new ObjectMapper();
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(emp);
+        String json;
+        switch(loginType) {
+            case "employee":
+                Employee emp = controller.getCurrentEmployeeProfile(userID);
+                System.out.println("GetCurrentUserServlet emp = " + emp);
+                json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(emp);
+                break;
+            case "manager":
+                Manager mgr = controller.getCurrentManagerProfile(userID);
+                System.out.println("GetCurrentUserServlet mgr= " + mgr);
+                json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mgr);
+                break;
+            default:
+                json = "";
+        }
+                System.out.println(json);
         res.setStatus(200);
         res.getWriter().print(json);
     }
-
-
 }
