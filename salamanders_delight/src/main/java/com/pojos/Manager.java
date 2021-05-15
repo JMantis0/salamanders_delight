@@ -57,7 +57,7 @@ public class Manager {
         return "Manager{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", managerID='" + userID + '\'' +
+                ", userID='" + userID + '\'' +
                 ", password='" + password + '\'' +
                 ", id=" + id +
                 '}';

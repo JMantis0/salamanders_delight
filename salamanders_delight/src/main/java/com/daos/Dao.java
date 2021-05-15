@@ -7,6 +7,8 @@ import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
 import com.utils.MongoConnector;
 
+import java.util.List;
+
 
 public interface Dao {
     //Model the db
@@ -17,4 +19,5 @@ public interface Dao {
     void updateOneEmployeeField(String empID, String field, String value);
     Manager getManagerByManagerID(String managerID);
     String getManagerPasswordByManagerID(String managerID);
+    List<ReimbursementRequest> getAllRequests();
 }

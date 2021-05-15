@@ -8,7 +8,9 @@ import com.utils.MongoConnector;
 import com.pojos.Employee;
 import com.mongodb.client.MongoCollection;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -116,6 +118,16 @@ public class MongoDao implements Dao {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<ReimbursementRequest> getAllRequests() {
+        System.out.println("Inside dao getAllRequests()");
+        FindIterable<ReimbursementRequest> allRequests = requests.find();
+        List<ReimbursementRequest> list = new ArrayList<>();
+        for(ReimbursementRequest request: allRequests) {
+            list.add(request);
+        }
+        return list;
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.services;
 
 import com.daos.Dao;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.pojos.ReimbursementRequest;
+
+import java.util.List;
 
 public class MongoReimbursementService implements MongoService {
     private Dao dao;
@@ -36,5 +39,7 @@ public class MongoReimbursementService implements MongoService {
         System.out.println("Inside MongoReimbursement service createRequest");
         dao.createRequest(request);
     }
-
+    public List<ReimbursementRequest> getAllRequests() {
+      return dao.getAllRequests();
+    }
 }

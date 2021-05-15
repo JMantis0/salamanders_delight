@@ -12,7 +12,7 @@ import { updateAllRequests, selectSalamander} from "../../redux/salamanderSlice"
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import styles from "../../Salamander.module.css";
 
-const ReimbursementTable = () => {
+const EmployeeReimbursementTable = () => {
   const salamander = useAppSelector(selectSalamander);
   const dispatch = useAppDispatch();
   
@@ -62,4 +62,4 @@ const ReimbursementTable = () => {
   );
 };
 
-export default ReimbursementTable;
+export default EmployeeReimbursementTable;

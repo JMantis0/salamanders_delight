@@ -5,27 +5,25 @@ import com.controllers.ReactController;
 import com.daos.Dao;
 import com.daos.MongoDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.client.FindIterable;
 import com.pojos.ReimbursementRequest;
 import com.services.MongoReimbursementService;
 import com.utils.MongoConnector;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.stream.Collectors;
+import java.io.PrintWriter;
+import java.util.List;
 
-public class CreateReimbursementServlet extends HttpServlet {
+public class GetAllReimbursementsServlet extends HttpServlet {
     private MongoConnector connector;
     private Dao dao;
     private MongoReimbursementService service;
     private Controller controller;
     private ObjectMapper mapper;
-    private BufferedReader bodyReader;
-    private String bodyString;
-    private ReimbursementRequest newRequest;
+
 
     @Override
     public void init() throws ServletException {
@@ -37,14 +35,13 @@ public class CreateReimbursementServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        System.out.println("Inside doPost CreateReimbursementServlet");
-        bodyReader = req.getReader();
-        bodyString = bodyReader.lines().collect(Collectors.joining());
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        System.out.println("GetAllReimbursementsServlet");
+       List<ReimbursementRequest> list = controller.getAllRequests();
         mapper = new ObjectMapper();
-        newRequest = mapper.readValue(bodyString, ReimbursementRequest.class);
-        controller.createRequest(newRequest);
-        System.out.println("Is there a new request?");
-        res.setStatus(201);
+        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
+        res.setStatus(200);
+        PrintWriter resWriter = res.getWriter();
+        resWriter.print(json);
     }
 }

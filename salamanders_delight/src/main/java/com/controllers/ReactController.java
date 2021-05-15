@@ -1,6 +1,7 @@
 package com.controllers;
 ;
 import com.daos.MongoDao;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
@@ -10,6 +11,7 @@ import javafx.util.Pair;
 import com.pojos.Employee;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h1>ReactController</h1>
@@ -128,5 +130,9 @@ public class ReactController implements Controller {
 
         ((MongoUserService)service).updateOneEmployeeField(empID, field, value);
 
+    }
+    @Override
+    public List<ReimbursementRequest> getAllRequests() {
+        return ((MongoReimbursementService)service).getAllRequests();
     }
 }

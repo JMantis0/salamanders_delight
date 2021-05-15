@@ -6,8 +6,6 @@ import com.daos.Dao;
 import com.daos.MongoDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pojos.Employee;
-import com.pojos.ReimbursementRequest;
-import com.services.MongoReimbursementService;
 import com.services.MongoService;
 import com.services.MongoUserService;
 import com.utils.MongoConnector;
@@ -31,9 +29,6 @@ public class UpdateEmpProfileServlet extends HttpServlet {
     private BufferedReader bodyReader;
     private String bodyString;
     private ProfileUpdater profileUpdate;
-    private int responseStatus;
-    private String nextURL;
-    private PrintWriter responseWriter;
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

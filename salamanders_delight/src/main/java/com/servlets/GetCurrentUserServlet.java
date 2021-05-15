@@ -7,7 +7,6 @@ import com.daos.MongoDao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
-import com.services.MongoReimbursementService;
 import com.services.MongoUserService;
 import com.utils.MongoConnector;
 import com.pojos.Employee;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.stream.Collectors;
 
 public class GetCurrentUserServlet extends HttpServlet {
     private MongoConnector connector;

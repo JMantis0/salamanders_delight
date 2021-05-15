@@ -9,9 +9,6 @@ import com.mongodb.client.FindIterable;
 import com.pojos.ReimbursementRequest;
 import com.services.MongoReimbursementService;
 import com.utils.MongoConnector;
-import com.utils.PasswordChecker;
-import javafx.util.Pair;
-import org.bson.json.JsonReader;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +18,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ReimbursementServlet extends HttpServlet {
@@ -30,11 +26,6 @@ public class ReimbursementServlet extends HttpServlet {
     private MongoReimbursementService service;
     private Controller controller;
     private ObjectMapper mapper;
-    private BufferedReader bodyReader;
-    private String bodyString;
-    private int responseStatus;
-    private String nextURL;
-    private PrintWriter responseWriter;
 
     @Override
     public void init() throws ServletException {

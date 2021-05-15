@@ -1,7 +1,7 @@
 import React from "react";
 import LogoutButton from "../components/LogoutButton/LogoutButton";
 import CreateRequestForm from "../components/CreateRequestForm/CreateRequestForm";
-import ReimbursementTable from "../components/ReimbursementTable/ReimbursementTable";
+import EmployeeReimbursementTable from "../components/ReimbursementTables/EmployeeReimbursementTable";
 import PageGreeting from "../components/PageGreeting/PageGreeting";
 import EmployeeInfoViewer from "../components/EmployeeInfoViewer/EmployeeInfoViewer";
 
@@ -13,7 +13,7 @@ const EmployeeHome = () => {
       <LogoutButton />
       <CreateRequestForm />
       What does a reimbursement request require?
-      <ReimbursementTable />
+      <EmployeeReimbursementTable />
       <EmployeeInfoViewer />
     </div>
   );
