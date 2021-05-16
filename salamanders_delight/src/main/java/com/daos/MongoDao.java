@@ -192,4 +192,21 @@ public class MongoDao implements Dao {
         requests.updateOne(query, updateObject);
 
     }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+      try {
+
+        System.out.println("Inside dao getAllRequests()");
+        FindIterable<Employee> allEmployees = employees.find();
+        List<Employee> list = new ArrayList<>();
+        for (Employee employee : allEmployees) {
+            list.add(employee);
+        }
+        return list;
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    };
 }

@@ -21,4 +21,5 @@ public interface Dao {
     String getManagerPasswordByManagerID(String managerID);
     List<ReimbursementRequest> getAllRequests();
     public void resolveRequest(ObjectId objectId, String resolver, String resolution);
+    List<Employee> getAllEmployees();
 }

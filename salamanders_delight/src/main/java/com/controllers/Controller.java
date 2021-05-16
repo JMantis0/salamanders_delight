@@ -16,4 +16,5 @@ public interface Controller {
     Employee getCurrentEmployeeProfile(String empID);
     List<ReimbursementRequest> getAllRequests();
     void resolveRequest(ObjectId objectId, String resolver, String resolution);
+    List<Employee> getAllEmployees();
 }

@@ -65,4 +65,12 @@
         <servlet-name>ResolveRequest</servlet-name>
         <url-pattern>/api/resolve_request</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>GetAllEmps</servlet-name>
+        <servlet-class>com.servlets.GetAllEmployeesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllEmps</servlet-name>
+        <url-pattern>/api/get_all_employees</url-pattern>
+    </servlet-mapping>
 </web-app>

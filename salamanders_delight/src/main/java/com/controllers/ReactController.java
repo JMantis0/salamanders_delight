@@ -144,6 +144,12 @@ public class ReactController implements Controller {
     }
 
     public void resolveRequest(ObjectId objectId, String resolver, String resolution) {
-        ((MongoReimbursementService)service).resolveRequest(objectId, resolver, resolution);
+        ((MongoReimbursementService) service).resolveRequest(objectId, resolver, resolution);
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        System.out.println("controller getALlEmployees");
+        return ((MongoUserService) service).getAllEmployees();
     }
 }

@@ -4,6 +4,8 @@ import com.daos.Dao;
 import com.pojos.Employee;
 import com.pojos.Manager;
 
+import java.util.List;
+
 public class MongoUserService implements MongoService{
     private Dao dao;
 
@@ -93,5 +95,10 @@ public class MongoUserService implements MongoService{
         }
         return passwordIsValid;
     }
+
+    public List<Employee> getAllEmployees() {
+        System.out.println("UserService getAllEMployees");
+      return dao.getAllEmployees();
+  }
 
 }

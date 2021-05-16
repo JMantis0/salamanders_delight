@@ -27,7 +27,13 @@ export interface SalamanderState {
     password: string;
     id: { timestamp: number | null; date: number | null };
   };
-
+  employeesState: Array<{
+    firstName: string;
+    lastName: string;
+    userID: string;
+    password: string;
+    id: { timestamp: number | null; date: number | null };
+  }>;
   allReimbursementsState: Array<{
     amount: number;
     status: string;
@@ -50,6 +56,7 @@ const initialState: SalamanderState = {
     password: "",
     id: { timestamp: null, date: null },
   },
+  employeesState: [],
   allReimbursementsState: [],
 };
 
@@ -100,12 +107,13 @@ export const salamanderSlice = createSlice({
       };
     },
     setAllReimbursementsState: (state, action) => {
-      state.allReimbursementsState = [
-        ...action.payload,
-      ];
+      state.allReimbursementsState = [...action.payload];
     },
     resetAllReimbursementsState: (state) => {
       state.allReimbursementsState = [];
+    },
+    setEmployeesState: (state, action) => {
+      state.employeesState = [...action.payload];
     },
     resetState: (state) => {
       state = initialState;
@@ -124,6 +132,7 @@ export const {
   setAllReimbursementsState,
   resetAllReimbursementsState,
   resetState,
+  setEmployeesState,
 } = salamanderSlice.actions;
 
 export const selectSalamander = (state: RootState) => state.salamander;
