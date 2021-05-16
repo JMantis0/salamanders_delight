@@ -8,32 +8,35 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
-import { updateAllRequests, selectSalamander} from "../../redux/salamanderSlice";
+import {
+  setEmployeeRequestsState,
+  selectSalamander,
+} from "../../redux/salamanderSlice";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import styles from "../../Salamander.module.css";
 
 const EmployeeReimbursementTable = () => {
   const salamander = useAppSelector(selectSalamander);
   const dispatch = useAppDispatch();
-  
+
   const getAllReimbursementRequestsForCurrentUser = () => {
     axios
       .get(`/api/get_requests?userID=${salamander.loginState.userID}`)
       .then((response) => {
         console.log("response.data", response.data);
-        dispatch(updateAllRequests(response.data));
+        dispatch(setEmployeeRequestsState(response.data));
       })
       .catch((err) => {
         console.log("there was an error: ", err.response);
       });
   };
-  
+
   useMemo(() => {
     getAllReimbursementRequestsForCurrentUser();
   }, []);
 
   return (
-    <React.Fragment>     
+    <React.Fragment>
       <TableContainer component={Paper}>
         <Table className={styles.table} aria-label="reimbursement table">
           <TableHead>
@@ -41,6 +44,7 @@ const EmployeeReimbursementTable = () => {
               <TableCell>Justification</TableCell>
               <TableCell align="right">Amount</TableCell>
               <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Resolved By</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -50,8 +54,9 @@ const EmployeeReimbursementTable = () => {
                   {request.justification}
                 </TableCell>
                 <TableCell align="right">{request.amount}</TableCell>
+                <TableCell align="right">{request.status}</TableCell>
                 <TableCell align="right">
-                  {request.resolved ? "Resolved" : "Pending"}
+                  {request.resolvedBy ? request.resolvedBy : "Unresolved"}
                 </TableCell>
               </TableRow>
             ))}

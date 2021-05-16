@@ -4,19 +4,12 @@ import org.bson.types.ObjectId;
 
 public class ReimbursementRequest {
     private double amount;
-    private boolean resolved;
+    private String status;
     private String resolvedBy;
     private String requesterID;
     private String justification;
     private ObjectId id;
-
-    public ReimbursementRequest(double amount, String requesterID, String justification) {
-        this.amount = amount;
-        this.requesterID = requesterID;
-        this.justification = justification;
-        this.resolved = false;
-    }
-
+    private String customId;
 
     public ReimbursementRequest() {
     }
@@ -29,12 +22,12 @@ public class ReimbursementRequest {
         this.amount = amount;
     }
 
-    public boolean isResolved() {
-        return resolved;
+    public String getStatus() {
+        return status;
     }
 
-    public void setResolved(boolean resolved) {
-        this.resolved = resolved;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getResolvedBy() {
@@ -69,14 +62,24 @@ public class ReimbursementRequest {
         this.id = id;
     }
 
+    public String getCustomId() {
+        return customId;
+    }
+
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
+
     @Override
     public String toString() {
         return "ReimbursementRequest{" +
                 "amount=" + amount +
-                ", resolved=" + resolved +
+                ", status='" + status + '\'' +
+                ", resolvedBy='" + resolvedBy + '\'' +
                 ", requesterID='" + requesterID + '\'' +
                 ", justification='" + justification + '\'' +
                 ", id=" + id +
+                ", customId='" + customId + '\'' +
                 '}';
     }
 }

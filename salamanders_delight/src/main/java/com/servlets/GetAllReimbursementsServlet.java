@@ -9,6 +9,7 @@ import com.mongodb.client.FindIterable;
 import com.pojos.ReimbursementRequest;
 import com.services.MongoReimbursementService;
 import com.utils.MongoConnector;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,12 +37,20 @@ public class GetAllReimbursementsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        System.out.println("GetAllReimbursementsServlet");
-       List<ReimbursementRequest> list = controller.getAllRequests();
-        mapper = new ObjectMapper();
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
-        res.setStatus(200);
-        PrintWriter resWriter = res.getWriter();
-        resWriter.print(json);
+        try {
+            System.out.println("GetAllReimbursementsServlet");
+
+            List<ReimbursementRequest> list = controller.getAllRequests();
+            for (ReimbursementRequest request : list) {
+                request.setCustomId(request.getId().toString());
+            }
+            mapper = new ObjectMapper();
+            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
+            res.setStatus(200);
+            PrintWriter resWriter = res.getWriter();
+            resWriter.print(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

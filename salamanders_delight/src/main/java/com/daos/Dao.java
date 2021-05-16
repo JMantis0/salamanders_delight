@@ -6,12 +6,12 @@ import com.pojos.Employee;
 import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
 import com.utils.MongoConnector;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
 
 public interface Dao {
-    //Model the db
     String getEmployeePasswordByUserID(String empID);
     Employee getEmployeeByUserID(String empID);
     FindIterable<ReimbursementRequest> getAllRequestsByUserID(String empID);
@@ -20,4 +20,5 @@ public interface Dao {
     Manager getManagerByManagerID(String managerID);
     String getManagerPasswordByManagerID(String managerID);
     List<ReimbursementRequest> getAllRequests();
+    public void resolveRequest(ObjectId objectId, String resolver, String resolution);
 }

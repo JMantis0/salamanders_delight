@@ -4,6 +4,7 @@ import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
 import javafx.util.Pair;
 import com.pojos.Employee;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface Controller {
     Manager getCurrentManagerProfile(String manID);
     Employee getCurrentEmployeeProfile(String empID);
     List<ReimbursementRequest> getAllRequests();
+    void resolveRequest(ObjectId objectId, String resolver, String resolution);
 }

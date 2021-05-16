@@ -7,6 +7,7 @@ import com.pojos.ReimbursementRequest;
 import com.utils.MongoConnector;
 import com.pojos.Employee;
 import com.mongodb.client.MongoCollection;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,7 +27,9 @@ public class MongoDao implements Dao {
     MongoCollection<Manager> managers;
     MongoCollection<ReimbursementRequest> requests;
 
-    public MongoDao(){}
+    public MongoDao() {
+    }
+
     public MongoDao(MongoConnector connector) {
         this.connector = connector;
         //This configuration can be removed from the constructor and instead be a executed by a method.
@@ -47,6 +50,7 @@ public class MongoDao implements Dao {
     /**
      * Queries the MongoDB for an employee with userID field matching the userID String parameter, and gets its password.
      * If no such employee exists, null is returned.
+     *
      * @param userID used to query the MongoDB employee collection.
      * @return correctPassword - A string that contains the password value stored in the employee record, or null
      * if there is no such employee.
@@ -57,7 +61,7 @@ public class MongoDao implements Dao {
         String correctPassword;
         try {
             correctPassword = employees.find(eq("userID", userID)).first().getPassword();
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
             System.out.println("No such user exists");
             correctPassword = null;
@@ -72,7 +76,7 @@ public class MongoDao implements Dao {
         try {
             correctPassword = managers.find(eq("userID", managerID)).first().getPassword();
             System.out.println(correctPassword);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("No such user exists");
             correctPassword = null;
@@ -84,6 +88,7 @@ public class MongoDao implements Dao {
     /**
      * Queries the DB for an employee with userID field matching the userID String parameter and
      * returns the employee, if it exists.  Otherwise, null is returned.
+     *
      * @param userID used to query the MongoDB employee collection.
      * @return an Employee object, or null.
      */
@@ -97,7 +102,7 @@ public class MongoDao implements Dao {
     @Override
     public Manager getManagerByManagerID(String managerID) {
         System.out.println("Inside MongoDao getManager(" + managerID + ").");
-        Manager mgr= managers.find(eq("userID", managerID)).first();
+        Manager mgr = managers.find(eq("userID", managerID)).first();
         return mgr;
     }
 
@@ -105,29 +110,36 @@ public class MongoDao implements Dao {
     /**
      * Queries the DB for all reimbursement requests with requesterID field matching the userID String parameter
      * and returns the collection.
+     *
      * @param userID used to query the MongoDB employee collection.
      * @return a FindIterable{@code <ReimbursementRequest>}
      */
     @Override
     public FindIterable<ReimbursementRequest> getAllRequestsByUserID(String userID) {
         System.out.println("Inside MongoDao getAllRequestsByuserID");
-        try{
+        try {
             FindIterable<ReimbursementRequest> allRequests = requests.find(eq("requesterID", userID));
             return allRequests;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
     public List<ReimbursementRequest> getAllRequests() {
+        try {
+
         System.out.println("Inside dao getAllRequests()");
         FindIterable<ReimbursementRequest> allRequests = requests.find();
         List<ReimbursementRequest> list = new ArrayList<>();
-        for(ReimbursementRequest request: allRequests) {
+        for (ReimbursementRequest request : allRequests) {
             list.add(request);
         }
         return list;
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -150,16 +162,34 @@ public class MongoDao implements Dao {
 
     @Override
     public void updateOneEmployeeField(String userID, String field, String value) {
+        System.out.println("dao updateOneEmployeeField(" + userID + ", " + field + ", " + value + ")");
         BasicDBObject query = new BasicDBObject();
-        query.put("userID", userID); // (1)
+        query.put("userID", userID);
 
         BasicDBObject newDocument = new BasicDBObject();
-        newDocument.put(field, value); // (2)
+        newDocument.put(field, value);
 
         BasicDBObject updateObject = new BasicDBObject();
-        updateObject.put("$set", newDocument); // (3)
+        updateObject.put("$set", newDocument);
 
-        employees.updateOne(query, updateObject); // (4)
-        System.out.println(3);
+        employees.updateOne(query, updateObject);
+
+    }
+
+    @Override
+    public void resolveRequest(ObjectId objectId, String resolver, String resolution) {
+        System.out.println("dao resolveRequest(" + objectId + ". " + resolver + ", " + resolution + ")");
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", objectId);
+
+        BasicDBObject newDocument = new BasicDBObject();
+        newDocument.put("status", resolution);
+        newDocument.put("resolvedBy", resolver);
+
+        BasicDBObject updateObject = new BasicDBObject();
+        updateObject.put("$set", newDocument);
+
+        requests.updateOne(query, updateObject);
+
     }
 }

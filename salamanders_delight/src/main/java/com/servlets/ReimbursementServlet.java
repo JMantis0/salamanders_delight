@@ -41,13 +41,16 @@ public class ReimbursementServlet extends HttpServlet {
         System.out.println("Inside ReimbursementServlet doGet");
         //Get the empID param from the request url.
         String empID = req.getParameter("userID");
-        FindIterable<ReimbursementRequest> allRequests = service.getAllRequestsByEmpID(empID);
         List<ReimbursementRequest> list = new ArrayList<>();
+        FindIterable<ReimbursementRequest> allRequests = service.getAllRequestsByEmpID(empID);
         for(ReimbursementRequest request: allRequests) {
+            request.setCustomId(request.getId().toString());
             list.add(request);
         }
         mapper = new ObjectMapper();
         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
+        System.out.println("json");
+        System.out.println(json);
         res.setStatus(200);
         PrintWriter resWriter = res.getWriter();
         resWriter.print(json);

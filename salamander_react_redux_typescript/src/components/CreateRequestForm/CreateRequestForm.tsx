@@ -4,7 +4,8 @@ import TextField from "@material-ui/core/TextField";
 import {
   setRequestFormState,
   selectSalamander,
-  updateAllRequests,
+  setEmployeeRequestsState
+  
 } from "../../redux/salamanderSlice";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,11 +35,12 @@ const CreateRequestForm = () => {
   };
 
   const getAllReimbursementRequestsForCurrentUser = () => {
-    axios
+    axios 
       .get(`/api/get_requests?userID=${salamander.loginState.userID}`)
       .then((response) => {
-        console.log("response.data", response.data);
-        dispatch(updateAllRequests(response.data));
+        console.log("response.data", JSON.stringify(response.data));
+        dispatch(setEmployeeRequestsState(response.data));
+        dispatch(setRequestFormState({justification: "", amount: ""}));
       })
       .catch((err) => {
         console.log("there was an error: ", err.response);
@@ -52,7 +54,9 @@ const CreateRequestForm = () => {
     const postData = {
       requesterID: salamander.loginState.userID,
       justification: salamander.createRequestState.justification,
-      amount: salamander.createRequestState.amount
+      amount: salamander.createRequestState.amount,
+      resolvedBy: null,
+      status: "Pending"
     }
     axios
       .post("/api/create_new_request", postData)

@@ -13,8 +13,10 @@ export interface SalamanderState {
     amount: number | null;
     justification: string | null;
     requesterID: string;
-    resolved: boolean;
+    resolvedBy: string;
+    status: string;
     id: { timestamp: number; date: number };
+    customId: string;
   }>;
   loginState: { userID: string; password: string; loginType: String };
   createRequestState: { justification: string; amount: string | number | null };
@@ -25,15 +27,15 @@ export interface SalamanderState {
     password: string;
     id: { timestamp: number | null; date: number | null };
   };
-  //Add a section of state for the Manager Reimbursement Viewer.
-  // State should be an array of Reimbursement Objects
+
   allReimbursementsState: Array<{
     amount: number;
-    resolved: boolean;
+    status: string;
     resolvedBy: string;
     requesterID: string;
     justification: string;
     id: { timestamp: number | null; date: number | null };
+    customId: string;
   }>;
 }
 
@@ -55,10 +57,10 @@ export const salamanderSlice = createSlice({
   name: "salamander",
   initialState,
   reducers: {
-    updateAllRequests: (state, action) => {
+    setEmployeeRequestsState: (state, action) => {
       state.employeeRequestsState = action.payload;
     },
-    resetEmployeeRequests: (state) => {
+    resetEmployeeRequestsState: (state) => {
       state.employeeRequestsState = [];
     },
     setRequestFormState: (state, action) => {
@@ -98,20 +100,22 @@ export const salamanderSlice = createSlice({
       };
     },
     setAllReimbursementsState: (state, action) => {
-      state.allReimbursementsState = {
-        ...state.allReimbursementsState,
+      state.allReimbursementsState = [
         ...action.payload,
-      };
+      ];
     },
     resetAllReimbursementsState: (state) => {
       state.allReimbursementsState = [];
+    },
+    resetState: (state) => {
+      state = initialState;
     },
   },
 });
 
 export const {
-  updateAllRequests,
-  resetEmployeeRequests,
+  setEmployeeRequestsState,
+  resetEmployeeRequestsState,
   setRequestFormState,
   setLoginFormState,
   resetLoginFormData,
@@ -119,6 +123,7 @@ export const {
   resetCurrentUser,
   setAllReimbursementsState,
   resetAllReimbursementsState,
+  resetState,
 } = salamanderSlice.actions;
 
 export const selectSalamander = (state: RootState) => state.salamander;

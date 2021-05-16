@@ -25,12 +25,6 @@ public class GetCurrentUserServlet extends HttpServlet {
     private MongoUserService service;
     private Controller controller;
     private ObjectMapper mapper;
-    private BufferedReader bodyReader;
-    private String bodyString;
-    private ReimbursementRequest newRequest;
-    private int responseStatus;
-    private String nextURL;
-    private PrintWriter responseWriter;
 
     @Override
     public void init() throws ServletException {

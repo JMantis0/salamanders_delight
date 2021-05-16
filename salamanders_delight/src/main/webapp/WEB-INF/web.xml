@@ -57,4 +57,12 @@
         <servlet-name>GetAllReqs</servlet-name>
         <url-pattern>/api/get_all_reqs</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ResolveRequest</servlet-name>
+        <servlet-class>com.servlets.ResolveRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResolveRequest</servlet-name>
+        <url-pattern>/api/resolve_request</url-pattern>
+    </servlet-mapping>
 </web-app>
