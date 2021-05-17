@@ -33,4 +33,44 @@
         <servlet-name>CreateRequestServlet</servlet-name>
         <url-pattern>/api/create_new_request</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>GetCurrentUserServlet</servlet-name>
+        <servlet-class>com.servlets.GetCurrentUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCurrentUserServlet</servlet-name>
+        <url-pattern>/api/current_user/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateOneEmpFieldServlet</servlet-name>
+        <servlet-class>com.servlets.UpdateEmpProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateOneEmpFieldServlet</servlet-name>
+        <url-pattern>/api/update_emp_field/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetAllReqs</servlet-name>
+        <servlet-class>com.servlets.GetAllReimbursementsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllReqs</servlet-name>
+        <url-pattern>/api/get_all_reqs</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ResolveRequest</servlet-name>
+        <servlet-class>com.servlets.ResolveRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResolveRequest</servlet-name>
+        <url-pattern>/api/resolve_request</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GetAllEmps</servlet-name>
+        <servlet-class>com.servlets.GetAllEmployeesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllEmps</servlet-name>
+        <url-pattern>/api/get_all_employees</url-pattern>
+    </servlet-mapping>
 </web-app>

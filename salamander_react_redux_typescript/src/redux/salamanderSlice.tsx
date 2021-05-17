@@ -1,33 +1,74 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "./store";
+import {
+  // createAsyncThunk,
+  createSlice,
+  //  PayloadAction
+} from "@reduxjs/toolkit";
+import {
+  RootState,
+  //  AppThunk
+} from "./store";
 
 export interface SalamanderState {
-  requestsState: Array<{
-    amount: number;
+  employeeRequestsState: Array<{
+    amount: number | null;
     justification: string | null;
     requesterID: string;
-    resolved: boolean;
+    resolvedBy: string;
+    status: string;
     id: { timestamp: number; date: number };
+    customId: string;
   }>;
-  loginState: { empID: String; password: String };
-  createRequestState: { justification: String; amount: String };
+  loginState: { userID: string; password: string; loginType: String };
+  createRequestState: { justification: string; amount: string | number | null };
+  currentUser: {
+    firstName: string;
+    lastName: string;
+    userID: string;
+    password: string;
+    id: { timestamp: number | null; date: number | null };
+  };
+  employeesState: Array<{
+    firstName: string;
+    lastName: string;
+    userID: string;
+    password: string;
+    id: { timestamp: number | null; date: number | null };
+  }>;
+  allReimbursementsState: Array<{
+    amount: number;
+    status: string;
+    resolvedBy: string;
+    requesterID: string;
+    justification: string;
+    id: { timestamp: number | null; date: number | null };
+    customId: string;
+  }>;
 }
 
 const initialState: SalamanderState = {
-  requestsState: [],
-  loginState: { empID: "", password: "" },
-  createRequestState: { justification: "", amount: "0" },
+  employeeRequestsState: [],
+  loginState: { userID: "", password: "", loginType: "" },
+  createRequestState: { justification: "", amount: "" },
+  currentUser: {
+    firstName: "",
+    lastName: "",
+    userID: "",
+    password: "",
+    id: { timestamp: null, date: null },
+  },
+  employeesState: [],
+  allReimbursementsState: [],
 };
 
 export const salamanderSlice = createSlice({
   name: "salamander",
   initialState,
   reducers: {
-    updateAllRequests: (state, action) => {
-      state.requestsState = action.payload;
+    setEmployeeRequestsState: (state, action) => {
+      state.employeeRequestsState = action.payload;
     },
-    resetEmployeeRequests: (state) => {
-      state.requestsState = [];
+    resetEmployeeRequestsState: (state) => {
+      state.employeeRequestsState = [];
     },
     setRequestFormState: (state, action) => {
       console.log("action", action);
@@ -47,18 +88,51 @@ export const salamanderSlice = createSlice({
       state.loginState = { ...state.loginState, [fieldName]: value };
     },
     resetLoginFormData: (state) => {
-      state.loginState.empID = "";
+      state.loginState.userID = "";
       state.loginState.password = "";
+      state.loginState.loginType = "";
+    },
+    setCurrentUser: (state, action) => {
+      console.log("action", action);
+      console.log("action.payload", action.payload);
+      state.currentUser = { ...state.currentUser, ...action.payload };
+    },
+    resetCurrentUser: (state) => {
+      state.currentUser = {
+        firstName: "",
+        lastName: "",
+        userID: "",
+        password: "",
+        id: { timestamp: null, date: null },
+      };
+    },
+    setAllReimbursementsState: (state, action) => {
+      state.allReimbursementsState = [...action.payload];
+    },
+    resetAllReimbursementsState: (state) => {
+      state.allReimbursementsState = [];
+    },
+    setEmployeesState: (state, action) => {
+      state.employeesState = [...action.payload];
+    },
+    resetState: (state) => {
+      state = initialState;
     },
   },
 });
 
 export const {
-  updateAllRequests,
-  resetEmployeeRequests,
+  setEmployeeRequestsState,
+  resetEmployeeRequestsState,
   setRequestFormState,
   setLoginFormState,
   resetLoginFormData,
+  setCurrentUser,
+  resetCurrentUser,
+  setAllReimbursementsState,
+  resetAllReimbursementsState,
+  resetState,
+  setEmployeesState,
 } = salamanderSlice.actions;
 
 export const selectSalamander = (state: RootState) => state.salamander;

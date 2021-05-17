@@ -7,83 +7,71 @@ import org.bson.types.ObjectId;
  * <h2>Class for Object representation of Employee MongoDB Document</h2>
  */
 public class Employee {
-  private String firstName;
-  private String lastName;
-  private String empID;
-  private String password;
-  private boolean isManager;
-  private ObjectId _id; // For Mongo
+    private String firstName;
+    private String lastName;
+    private String userID;
+    private String password;
+    private ObjectId id;
 
-  //Constructors
-  public Employee() {
-  }
+    public Employee() {
+    }
 
-  public Employee(String firstName, String lastName, String empID, String password, ObjectId _id) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.empID = empID;
-    this.password = password;
-    this._id = _id;
-  }
+    public Employee(String firstName, String lastName, String userID, String password, ObjectId id) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userID = userID;
+        this.password = password;
+        this.id = id;
+    }
 
-  //  S/G etters
-  public String getFirstName() {
-    return firstName;
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-  public String getLastName() {
-    return lastName;
-  }
+    public String getLastName() {
+        return lastName;
+    }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-  public String getEmpID() {
-    return empID;
-  }
+    public String getUserID() {
+        return userID;
+    }
 
-  public void setEmpID(String empID) {
-    this.empID = empID;
-  }
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public boolean isManager() {
-    return isManager;
-  }
+    public ObjectId getId() {
+        return id;
+    }
 
-  public void setManager(boolean manager) {
-    isManager = manager;
-  }
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
-  public ObjectId get_id() {
-    return _id;
-  }
-
-  public void set_id(ObjectId _id) {
-    this._id = _id;
-  }
-
-  @Override
-  public String toString() {
-    return "Employee{" +
-            "firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", empID='" + empID + '\'' +
-            ", password='" + password + '\'' +
-            ", isManager=" + isManager +
-            ", _id=" + _id +
-            '}';
-  }
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userID='" + userID + '\'' +
+                ", password='" + password + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
