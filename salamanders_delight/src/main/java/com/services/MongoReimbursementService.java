@@ -1,13 +1,11 @@
 package com.services;
 
 import com.daos.Dao;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.pojos.ReimbursementRequest;
 import org.bson.types.ObjectId;
-
-import java.util.ArrayList;
 import java.util.List;
+
 
 public class MongoReimbursementService implements MongoService {
     private Dao dao;
@@ -17,11 +15,6 @@ public class MongoReimbursementService implements MongoService {
 
     public MongoReimbursementService(Dao dao) {
         this.dao = dao;
-    }
-
-    @Override
-    public Object findOne(String id) {
-        return null;
     }
 
     /**
@@ -34,11 +27,6 @@ public class MongoReimbursementService implements MongoService {
     public FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID) {
         System.out.println("Inside MongoReimbursementService getAllRequestsByEmpID");
         FindIterable<ReimbursementRequest> allRequests = dao.getAllRequestsByUserID(empID);
-        //  Maybe here I would like to manipulate the data structure before giving it to the controller.
-//        List<ReimbursementRequest> list = new ArrayList<>();
-        for (ReimbursementRequest request : allRequests) {
-            System.out.println(request.toString());
-        }
         return allRequests;
     }
 

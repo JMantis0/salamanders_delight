@@ -10,3 +10,8 @@
 .table {
 
 }
+
+.tabs {
+  justify-content: space-around;
+  align-items: center;
+}

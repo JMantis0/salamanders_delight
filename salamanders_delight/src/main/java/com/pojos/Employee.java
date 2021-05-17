@@ -11,9 +11,8 @@ public class Employee {
     private String lastName;
     private String userID;
     private String password;
-    private ObjectId id; // For Mongo
+    private ObjectId id;
 
-    //Constructors
     public Employee() {
     }
 
@@ -24,8 +23,6 @@ public class Employee {
         this.password = password;
         this.id = id;
     }
-
-    //  S/G etters
 
     public String getFirstName() {
         return firstName;

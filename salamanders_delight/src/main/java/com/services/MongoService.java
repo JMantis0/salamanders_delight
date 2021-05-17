@@ -8,5 +8,4 @@ import com.pojos.Employee;
  * @param <E> can be <ul><li>Employee</li><li>ReimbursementRequest</li><li>Manager</li></ul>
  */
 public interface MongoService<E> {
-    E findOne(String id);
 }

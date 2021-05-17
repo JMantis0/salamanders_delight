@@ -1,20 +1,14 @@
 import React from "react";
 import PageGreeting from "../components/PageGreeting/PageGreeting";
 import LogoutButton from "../components/LogoutButton/LogoutButton";
-import EmployeeInfoViewer from "../components/EmployeeInfoViewer/EmployeeInfoViewer";
-import ManagerReimbursementViewer from "../components/ReimbursementTables/ManagerReimbursementViewer";
-import ViewEmployeesTable from "../components/ViewEmployeesTable/ViewEmployeesTable";
+import ManagerTabs from "../components/ManagerTabs/ManagerTabs";
 
 const ManagerHome = () => {
   return (
-    <div>
+    <React.Fragment>
       <PageGreeting />
-      <LogoutButton />
-      <EmployeeInfoViewer />
-      <ViewEmployeesTable />
-      <ManagerReimbursementViewer />
-      This will be the Manager Home page
-    </div>
+      <ManagerTabs />
+    </React.Fragment>
   );
 };
 

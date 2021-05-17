@@ -4,8 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import {
   setRequestFormState,
   selectSalamander,
-  setEmployeeRequestsState
-  
+  setEmployeeRequestsState,
 } from "../../redux/salamanderSlice";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,36 +33,27 @@ const CreateRequestForm = () => {
     dispatch(setRequestFormState({ fieldName, value }));
   };
 
-  const getAllReimbursementRequestsForCurrentUser = () => {
-    axios 
-      .get(`/api/get_requests?userID=${salamander.loginState.userID}`)
-      .then((response) => {
-        console.log("response.data", JSON.stringify(response.data));
-        dispatch(setEmployeeRequestsState(response.data));
-        dispatch(setRequestFormState({justification: "", amount: ""}));
-      })
-      .catch((err) => {
-        console.log("there was an error: ", err.response);
-      });
-  };
-
   const submitNewRequest = () => {
-    // I want to call the servlet that makes a new request.
-    console.log("salamander.loginState", salamander.loginState)
-    console.log("calling /create_new_request with data: ", salamander.createRequestState);
+    console.log("salamander.loginState", salamander.loginState);
+    console.log(
+      "calling /create_new_request with data: ",
+      salamander.createRequestState
+    );
     const postData = {
       requesterID: salamander.loginState.userID,
       justification: salamander.createRequestState.justification,
       amount: salamander.createRequestState.amount,
       resolvedBy: null,
-      status: "Pending"
-    }
+      status: "Pending",
+    };
     axios
       .post("/api/create_new_request", postData)
       .then((response) => {
-      
         console.log("response.data", response.data);
-        getAllReimbursementRequestsForCurrentUser();
+        dispatch(
+          setRequestFormState({ fieldName: "justification", value: "" })
+        );
+        dispatch(setRequestFormState({ fieldName: "amount", value: "" }));
       })
       .catch((err) => {
         console.log("There was an error", err);
@@ -79,6 +69,7 @@ const CreateRequestForm = () => {
           label="Justification"
           variant="outlined"
           name="justification"
+          value={salamander.createRequestState.justification}
           onChange={requestFormChangeHandler}
         />
         <TextField
@@ -88,6 +79,7 @@ const CreateRequestForm = () => {
           variant="outlined"
           name="amount"
           placeholder="in USD"
+          value={salamander.createRequestState.amount}
           onChange={requestFormChangeHandler}
         />
         <Button onClick={submitNewRequest}>Submit</Button>

@@ -19,36 +19,35 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class GetAllReimbursementsServlet extends HttpServlet {
-    private MongoConnector connector;
-    private Dao dao;
     private MongoReimbursementService service;
     private Controller controller;
-    private ObjectMapper mapper;
 
-
-    @Override
-    public void init() throws ServletException {
-        connector = new MongoConnector();
-        connector.configureCodecAndRegistryAndCreateClient();
-        dao = new MongoDao(connector);
-        service = new MongoReimbursementService(dao);
-        controller = new ReactController(service);
+    public void setService(MongoReimbursementService service) {
+        this.service = service;
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        MongoConnector connector = new MongoConnector();
+        connector.configureCodecAndRegistryAndCreateClient();
+        Dao dao = new MongoDao(connector);
+        service = new MongoReimbursementService(dao);
+        controller = new ReactController(service);
         try {
             System.out.println("GetAllReimbursementsServlet");
-
             List<ReimbursementRequest> list = controller.getAllRequests();
-            for (ReimbursementRequest request : list) {
-                request.setCustomId(request.getId().toString());
+            if (list.size() > 0) {
+                for (ReimbursementRequest request : list) {
+                    request.setCustomId(request.getId().toString());
+                }
             }
-            mapper = new ObjectMapper();
+            ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
             res.setStatus(200);
             PrintWriter resWriter = res.getWriter();
-            resWriter.print(json);
+            if (resWriter != null) {
+                resWriter.print(json);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

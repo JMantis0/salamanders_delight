@@ -37,8 +37,21 @@ const ManagerReimbursementViewer = () => {
 
   const resolutionHandler = (event: any, customId: string) => {
     console.log("event", event);
+    let resolution: string = "something";
+    if (
+      event.target.className ===
+      "MuiButtonBase-root MuiButton-root MuiButton-text"
+    ) {
+      console.log("You clicked on the edge.");
+      resolution = event.target.name;
+      console.log("resolution: ", resolution);
+    } else if (event.target.className === "MuiButton-label") {
+      console.log("You clicked on the label");
+      resolution = event.target.parentNode.name;
+      console.log("resolution: ", resolution);
+    }
     const data = {
-      resolution: event.target.parentNode.name,
+      resolution,
       objectId: customId,
       resolver: `${salamander.currentUser.firstName} ${salamander.currentUser.lastName} (${salamander.currentUser.userID})`,
     };

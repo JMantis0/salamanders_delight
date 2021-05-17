@@ -1,23 +1,19 @@
 package com.servlets;
-
 import com.controllers.Controller;
 import com.controllers.ReactController;
 import com.daos.Dao;
 import com.daos.MongoDao;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pojos.Employee;
 import com.services.MongoService;
 import com.services.MongoUserService;
 import com.utils.MongoConnector;
-import com.utils.ProfileUpdater;
-
+import org.json.JSONObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.stream.Collectors;
 
 public class UpdateEmpProfileServlet extends HttpServlet {
@@ -25,22 +21,16 @@ public class UpdateEmpProfileServlet extends HttpServlet {
     private Dao dao;
     private MongoService<Employee> service;
     private Controller controller;
-    private ObjectMapper mapper;
     private BufferedReader bodyReader;
     private String bodyString;
-    private ProfileUpdater profileUpdate;
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("PUT in UpdateEmpProfileServlet");
-        //get body
         bodyReader = req.getReader();
         bodyString = bodyReader.lines().collect(Collectors.joining());
-        System.out.println("bodyString: " + bodyString);
-        mapper = new ObjectMapper();
-        profileUpdate = mapper.readValue(bodyString, ProfileUpdater.class);
-        controller.updateOneEmployeeField(profileUpdate.getUserID(), profileUpdate.getField(), profileUpdate.getValue());
-
+        JSONObject jsonBody = new JSONObject(bodyString);
+        controller.updateOneEmployeeField(jsonBody.getString("userID"), jsonBody.getString("field"), jsonBody.getString("value"));
     }
 
     @Override

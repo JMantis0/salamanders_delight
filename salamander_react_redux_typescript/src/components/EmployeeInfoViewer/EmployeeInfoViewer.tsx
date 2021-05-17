@@ -59,7 +59,6 @@ const EmployeeInfoViewer = () => {
 
   return (
     <div>
-      This is where employee information is displayed.
       <TableContainer component={Paper}>
         <Table className={styles.table} aria-label="reimbursement table">
           <TableHead>

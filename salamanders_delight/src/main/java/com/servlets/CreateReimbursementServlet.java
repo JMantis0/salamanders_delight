@@ -16,33 +16,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.stream.Collectors;
-
 public class CreateReimbursementServlet extends HttpServlet {
-    private MongoConnector connector;
-    private Dao dao;
-    private MongoReimbursementService service;
     private Controller controller;
-    private ObjectMapper mapper;
-    private BufferedReader bodyReader;
-    private String bodyString;
-    private ReimbursementRequest newRequest;
-
     @Override
     public void init() throws ServletException {
-        connector = new MongoConnector();
+        MongoConnector connector = new MongoConnector();
         connector.configureCodecAndRegistryAndCreateClient();
-        dao = new MongoDao(connector);
-        service = new MongoReimbursementService(dao);
+        Dao dao = new MongoDao(connector);
+        MongoReimbursementService service = new MongoReimbursementService(dao);
         controller = new ReactController(service);
     }
-
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("Inside doPost CreateReimbursementServlet");
-        bodyReader = req.getReader();
-        bodyString = bodyReader.lines().collect(Collectors.joining());
-        mapper = new ObjectMapper();
-        newRequest = mapper.readValue(bodyString, ReimbursementRequest.class);
+        BufferedReader bodyReader = req.getReader();
+        String bodyString = bodyReader.lines().collect(Collectors.joining());
+        ObjectMapper mapper = new ObjectMapper();
+        ReimbursementRequest newRequest = mapper.readValue(bodyString, ReimbursementRequest.class);
         controller.createRequest(newRequest);
         System.out.println("Is there a new request?");
         res.setStatus(201);

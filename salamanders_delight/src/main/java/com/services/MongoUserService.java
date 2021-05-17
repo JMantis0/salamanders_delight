@@ -1,6 +1,7 @@
 package com.services;
 
 import com.daos.Dao;
+import com.mongodb.client.result.UpdateResult;
 import com.pojos.Employee;
 import com.pojos.Manager;
 
@@ -36,6 +37,17 @@ public class MongoUserService implements MongoService{
         return userExists;
     }
 
+    public boolean doesManagerExist(String managerID) {
+        System.out.println("Inside Service : doesUserExists(" + managerID + ")");
+        boolean userExists = false;
+        Manager mgr = dao.getManagerByUserID(managerID);
+        if(mgr != null) {
+            userExists = true;
+        }
+        System.out.println("userExists: " + userExists);
+        return userExists;
+    }
+
     /**
      * This method checks to see if the password stored in the database for the empID provided by the
      * client matches with the password provided by the client.
@@ -54,46 +66,31 @@ public class MongoUserService implements MongoService{
         return passwordIsValid;
     }
 
-    public Employee getEmployeeByEmpID(String empID) {
-        System.out.println("Inside service getEmployeeByEmpID("+empID+")");
-        return dao.getEmployeeByUserID(empID);
-    }
-
-    public Manager getManagerByManagerID(String manID) {
-        System.out.println("Inside service getManagerByManagerID("+manID+")");
-        return dao.getManagerByManagerID(manID);
-    }
-
-    public void updateOneEmployeeField(String empID, String field, String value) {
-        System.out.println(2);
-        dao.updateOneEmployeeField(empID, field, value);
-    }
-
-    public Object findOne(String id) {
-        return null;
-    }
-
-    public boolean doesManagerExist(String managerID) {
-        System.out.println("Inside Service : doesUserExists(" + managerID + ")");
-        boolean userExists = false;
-        Manager emp = dao.getManagerByManagerID(managerID);
-        if(emp != null) {
-            userExists = true;
-        }
-        System.out.println("userExists: " + userExists);
-        return userExists;
-    }
-
     public boolean isManagerPasswordValid(String managerID, String passwordAttempt) {
         System.out.println("Inside Service: isManagerPasswordValid(" + managerID + ", " + passwordAttempt + ")");
         boolean passwordIsValid = false;
-        String correctPassword = dao.getManagerPasswordByManagerID(managerID);
+        String correctPassword = dao.getManagerPasswordByUserID(managerID);
         System.out.println("Inside userService again, correctPassword = " + correctPassword);
         if(passwordAttempt.equals(correctPassword)) {
             passwordIsValid = true;
             System.out.println(passwordAttempt + correctPassword);
         }
         return passwordIsValid;
+    }
+
+    public Employee getEmployeeByEmpID(String empID) {
+        System.out.println("Inside service getEmployeeByEmpID("+empID+")");
+        return dao.getEmployeeByUserID(empID);
+    }
+
+    public Manager getManagerByUserID(String manID) {
+        System.out.println("Inside service getManagerByManagerID("+manID+")");
+        return dao.getManagerByUserID(manID);
+    }
+
+    public UpdateResult updateOneEmployeeField(String empID, String field, String value) {
+        System.out.println(2);
+        return dao.updateOneEmployeeField(empID, field, value);
     }
 
     public List<Employee> getAllEmployees() {

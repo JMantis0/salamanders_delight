@@ -1,18 +1,15 @@
 package com.controllers;
 
 ;
-import com.daos.MongoDao;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.result.UpdateResult;
 import com.pojos.Manager;
 import com.pojos.ReimbursementRequest;
 import com.services.*;
-import com.utils.MongoConnector;
 import javafx.util.Pair;
 import com.pojos.Employee;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,11 +36,13 @@ public class ReactController implements Controller {
      * @param password provided by the client.  Used as parameter in service method calls.
      * @return nextURL - instructs the client which page to render next.
      */
+    @Override
     public Pair<String, Integer> loginAttemptAndGetNextURL(String id, String password, String loginType) {
         Pair<String, Integer> nextURLandStatus;
         if ("employee".equals(loginType)) {
             String empID = id;
             System.out.println("Inside Controller \n Method employee loginAttempt(" + empID + ", " + password + ", " + loginType + ")");
+
             //First see if there exists a user with empID.
             boolean doesUserExist;
             try {
@@ -102,14 +101,12 @@ public class ReactController implements Controller {
         return nextURLandStatus;
     }
 
+    @Override
     public FindIterable<ReimbursementRequest> getAllRequestsByEmpID(String empID) {
         System.out.println("Inside Controller getAllREquestsByEmpID" + empID);
         FindIterable<ReimbursementRequest> allRequests = ((MongoReimbursementService) service).getAllRequestsByEmpID(empID);
         return allRequests;
     }
-
-    ;
-
     @Override
     public void createRequest(ReimbursementRequest request) {
         System.out.println("Inside Controller createRequest");
@@ -126,16 +123,14 @@ public class ReactController implements Controller {
     @Override
     public Manager getCurrentManagerProfile(String manID) {
         System.out.println("Inside controller getCurrentUserProfile" + manID + ")");
-        Manager manager = ((MongoUserService) service).getManagerByManagerID(manID);
+        Manager manager = ((MongoUserService) service).getManagerByUserID(manID);
         return manager;
     }
 
     @Override
-    public void updateOneEmployeeField(String empID, String field, String value) {
+    public UpdateResult updateOneEmployeeField(String empID, String field, String value) {
         System.out.println(1);
-
-        ((MongoUserService) service).updateOneEmployeeField(empID, field, value);
-
+        return ((MongoUserService) service).updateOneEmployeeField(empID, field, value);
     }
 
     @Override
@@ -143,6 +138,7 @@ public class ReactController implements Controller {
         return ((MongoReimbursementService) service).getAllRequests();
     }
 
+    @Override
     public void resolveRequest(ObjectId objectId, String resolver, String resolution) {
         ((MongoReimbursementService) service).resolveRequest(objectId, resolver, resolution);
     }
