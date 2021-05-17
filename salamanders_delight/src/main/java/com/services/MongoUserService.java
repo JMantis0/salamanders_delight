@@ -37,16 +37,6 @@ public class MongoUserService implements MongoService{
         return userExists;
     }
 
-    public boolean doesManagerExist(String managerID) {
-        System.out.println("Inside Service : doesUserExists(" + managerID + ")");
-        boolean userExists = false;
-        Manager mgr = dao.getManagerByUserID(managerID);
-        if(mgr != null) {
-            userExists = true;
-        }
-        System.out.println("userExists: " + userExists);
-        return userExists;
-    }
 
     /**
      * This method checks to see if the password stored in the database for the empID provided by the
@@ -64,6 +54,16 @@ public class MongoUserService implements MongoService{
             passwordIsValid = true;
         }
         return passwordIsValid;
+    }
+    public boolean doesManagerExist(String managerID) {
+        System.out.println("Inside Service : doesUserExists(" + managerID + ")");
+        boolean userExists = false;
+        Manager mgr = dao.getManagerByUserID(managerID);
+        if(mgr != null) {
+            userExists = true;
+        }
+        System.out.println("userExists: " + userExists);
+        return userExists;
     }
 
     public boolean isManagerPasswordValid(String managerID, String passwordAttempt) {

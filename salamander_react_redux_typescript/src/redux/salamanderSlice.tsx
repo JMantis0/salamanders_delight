@@ -116,7 +116,7 @@ export const salamanderSlice = createSlice({
       state.employeesState = [...action.payload];
     },
     resetState: (state) => {
-      state = initialState;
+     
     },
   },
 });

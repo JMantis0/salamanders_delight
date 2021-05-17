@@ -9,7 +9,9 @@ const LogoutButton = () => {
   const dispatch = useAppDispatch();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
      //  Reset currently logged in user State
-     dispatch(resetState());
+     dispatch(resetLoginFormData());
+     dispatch(resetEmployeeRequestsState())
+     dispatch(resetCurrentUser());
     history.push("/");
   };
   return (
