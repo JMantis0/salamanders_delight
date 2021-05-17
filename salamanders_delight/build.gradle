@@ -31,6 +31,7 @@ dependencies {
     testImplementation group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.2.0'
     implementation group: 'org.mongodb', name: 'mongodb-driver-async', version: '3.2.0'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
 }
 
 test {

@@ -70,23 +70,7 @@ public class MongoDao implements Dao {
         return correctPassword;
     }
 
-    @Override
-    public String getManagerPasswordByUserID(String managerID) {
-        System.out.println("Inside MongoDao getManagerPasswordByManagerID(" + managerID + ").");
-        String correctPassword;
-        try {
-            FindIterable<Manager> mgrs = managers.find(eq("userID", managerID));
-            Manager mgr = mgrs.first();
-            correctPassword = mgr.getPassword();
-            System.out.println(correctPassword);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("No such user exists");
-            correctPassword = null;
-        }
-        System.out.println("returning password");
-        return correctPassword;
-    }
+
     /**
      * Queries the DB for an employee with userID field matching the userID String parameter and
      * returns the employee, if it exists.  Otherwise, null is returned.
@@ -101,12 +85,6 @@ public class MongoDao implements Dao {
         return emp;
     }
 
-    @Override
-    public Manager getManagerByUserID(String managerID) {
-        System.out.println("Inside MongoDao getManager(" + managerID + ").");
-        Manager mgr = managers.find(eq("userID", managerID)).first();
-        return mgr;
-    }
     /**
      * Queries the DB for all reimbursement requests with requesterID field matching the userID String parameter
      * and returns the collection.
@@ -125,6 +103,32 @@ public class MongoDao implements Dao {
             return null;
         }
     }
+
+    @Override
+    public String getManagerPasswordByUserID(String managerID) {
+        System.out.println("Inside MongoDao getManagerPasswordByManagerID(" + managerID + ").");
+        String correctPassword;
+        try {
+            FindIterable<Manager> mgrs = managers.find(eq("userID", managerID));
+            Manager mgr = mgrs.first();
+            correctPassword = mgr.getPassword();
+            System.out.println(correctPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("No such user exists");
+            correctPassword = null;
+        }
+        System.out.println("returning password");
+        return correctPassword;
+    }
+
+    @Override
+    public Manager getManagerByUserID(String managerID) {
+        System.out.println("Inside MongoDao getManager(" + managerID + ").");
+        Manager mgr = managers.find(eq("userID", managerID)).first();
+        return mgr;
+    }
+
 
     public List<ReimbursementRequest> getAllRequests() {
         try {
