@@ -41,7 +41,7 @@ const EmployeeInfoViewer = () => {
         field: event.target.name,
         value: newValue,
       };
-      console.log("data", data);
+      
       axios
         .put("/api/update_emp_field", data)
         .then((response) => {
