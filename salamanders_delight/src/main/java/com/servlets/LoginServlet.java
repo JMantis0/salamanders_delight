@@ -60,7 +60,12 @@ public class LoginServlet extends HttpServlet {
         //  Get data from the request object to create a PasswordChecker object
         BufferedReader bodyReader = req.getReader();
         String bodyString = bodyReader.lines().collect(Collectors.joining());
+
+
         JSONObject jsonBody = new JSONObject(bodyString);
+
+
+
         Pair<String, Integer> nextURLandStatus = controller.loginAttemptAndGetNextURL(jsonBody.getString("userID"), jsonBody.getString("password"), jsonBody.getString("loginType"));
         rootLogger.info("User: " +jsonBody.getString("userID") +  " of type " +  jsonBody.getString("loginType") + "logged in");
         String nextURL = nextURLandStatus.getKey();
