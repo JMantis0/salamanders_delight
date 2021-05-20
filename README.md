@@ -1,29 +1,31 @@
 # Employee Reimbursement System (Project Salamander)
 
+![GitHub repo size](https://img.shields.io/github/repo-size/JMantis0/salamanders_delight )  ![GitHub language count](https://img.shields.io/github/languages/count/JMantis0/salamanders_delight )  ![GitHub top language](https://img.shields.io/github/languages/top/JMantis0/salamanders_delight )  
+
 ## Description
 Expense Reimbursement System (ERS)
 
 The Expense Reimbursement System (ERS) will manage the process of reimbursing employees for expenses incurred while on company time. All employees in the company can login and submit requests for reimbursement and view their past tickets and pending requests. Finance managers can log in and view all reimbursement requests and past history for all employees in the company. Finance managers are authorized to approve and deny requests for expense reimbursement.
 
-![main](salamander_react_redux_typescript/src/assets/login_image.PNG)
+![main](./salamander_react_redux_typescript/src/assets/login_image.JPG)
 
 ## Site Technologies/Features
 
-### Back-end
-Java
-MVC Architecture 
-Servlets
-Apache Tomcat
-MongoDB
-Java Data Base Connectivity
-Junit
+## Back-end
+- Java
+- MVC Architecture 
+- Servlets
+- Apache Tomcat
+- MongoDB
+- Java Data Base Connectivity
+- Junit
 
 ## Front-End
-React
-Redux
-Typescript 
+- React
+- Redux
+- Typescript 
 
-![employee](salamander_react_redux_typescript/src/assets/login_image.PNG)
+![employee](./salamander_react_redux_typescript/src/assets/employee_image.JPG)
 
 ## License
 
