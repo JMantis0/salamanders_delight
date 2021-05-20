@@ -1,6 +1,6 @@
 # Employee Reimbursement System (Project Salamander)
 
-![GitHub repo size](https://img.shields.io/github/repo-size/JMantis0/react-portfolio)  ![GitHub language count](https://img.shields.io/github/languages/count/JMantis0/react-portfolio)  ![GitHub top language](https://img.shields.io/github/languages/top/JMantis0/react-portfolio)  
+![GitHub repo size](https://img.shields.io/github/repo-size/JMantis0/salamanders_delight )  ![GitHub language count](https://img.shields.io/github/languages/count/JMantis0/salamanders_delight )  ![GitHub top language](https://img.shields.io/github/languages/top/JMantis0/salamanders_delight )  
 
 ## Description
 Expense Reimbursement System (ERS)
